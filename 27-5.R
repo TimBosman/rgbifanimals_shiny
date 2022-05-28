@@ -65,14 +65,14 @@ check_occurence_data <- function(species){
   }
 }
 
-plot_distribution(Coordinates, res){
+plot_distribution(Coordinates, res, plotname, title){
   ggplot() +
     geom_polygon(aes(x = long, y = lat, group = group), data = map_data("world")) +
     geom_hex(aes(x= Longitude, y = Latitude), data = res) +
     #coord_cartesian(xlim = c(-30, 50), ylim = c(30,80)) +
     #geom_label_repel(aes(x= Longitude, y = Latitude, label = Observatory.ID), data = Coordinates) +
     geom_point(aes(x= Longitude, y = Latitude), data = Coordinates, col = "red") + 
-    ggtitle(species)
+    ggtitle(title)
   ggsave(plotname)
 }
 
@@ -88,7 +88,7 @@ find_closest_registered_place <- function(species, Coordinates, tr, outputfile, 
   # Plot the distribution
   plotname = paste0("plots/", species, ".jpeg")
   if(plot & !file.exists(plotname)){
-    plot_distribution(Coordinates, res)
+    plot_distribution(Coordinates, res, plotname, species)
   }
   # Remove duplicate coordinates
   res <- res[!duplicated(res),]
@@ -152,7 +152,7 @@ df <- readRDS("inputs/BOLDigger_Species_Location.rds")
 # Read coordinates file
 Coordinates <- read.csv("inputs/Coordinates.csv")
 # Find for every location the shortest path to the species observation 
-sapply(df$Specieslist[1:30], function(species){
+sapply(df$Specieslist, function(species){
   print(species)
   tryCatch(find_closest_registered_place(species, Coordinates, tr, "ShortestPath.csv"), error = function(e)return())
 })
