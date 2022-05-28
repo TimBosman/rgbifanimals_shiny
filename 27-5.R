@@ -146,11 +146,11 @@ find_shortest_route_in_sea <- function(location, observations, tr){
 # Set working directory to directory where the R-script is saved
 setwd(dirname(rstudioapi::getActiveDocumentContext()$path)) # requires installation of package "rstudioapi"
 #Create a rastered world
-tr <- create_rastered_world("input/tr.rdata")
+tr <- create_rastered_world("inputs/tr.rdata")
 # Read a species list
-df <- readRDS("input/BOLDigger_Species_Location.rds")
+df <- readRDS("inputs/BOLDigger_Species_Location.rds")
 # Read coordinates file
-Coordinates <- read.csv("input/Coordinates.csv")
+Coordinates <- read.csv("inputs/Coordinates.csv")
 # Find for every location the shortest path to the species observation 
 sapply(df$Specieslist[1:30], function(species){
   print(species)
