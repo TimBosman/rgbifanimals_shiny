@@ -65,7 +65,7 @@ check_occurence_data <- function(species){
   }
 }
 
-plot_distribution(Coordinates, res, plotname, title){
+plot_distribution <- function(Coordinates, res, plotname, title){
   ggplot() +
     geom_polygon(aes(x = long, y = lat, group = group), data = map_data("world")) +
     geom_hex(aes(x= Longitude, y = Latitude), data = res) +
