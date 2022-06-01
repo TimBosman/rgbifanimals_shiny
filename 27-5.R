@@ -159,14 +159,14 @@ sapply(df$Specieslist, function(species){
   tryCatch(find_closest_registered_place(species, Coordinates, tr, "ShortestPath.csv"), error = function(e)return())
 })
  
-# df <- pivot_longer(df, !Specieslist)
-# df <- df[df$value > 0, ]
-# 
-# apply(df[1:2,], 1, function(row){
-#   samplelocation <- Coordinates[Coordinates$Observatory.ID == row[2], c("Longitude", "Latitude")]
-#   occurence_data <- check_occurence_data(row[1])
-#   dist <- find_shortest_route_in_sea(samplelocation, occurence_data, tr)
-#   # return(row)
-#   return(dist)
-# })
+long <- pivot_longer(df, !Specieslist)
+long <- long[long$value > 0, ]
+
+apply(long[1:2,], 1, function(row){
+  samplelocation <- Coordinates[Coordinates$Observatory.ID == row[2], c("Longitude", "Latitude")]
+  occurence_data <- check_occurence_data(row[1])
+  dist <- find_shortest_route_in_sea(samplelocation, occurence_data, tr)
+  # return(row)
+  return(dist)
+})
 
