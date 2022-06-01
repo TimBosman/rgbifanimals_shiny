@@ -110,37 +110,7 @@ find_closest_registered_place <- function(species, Coordinates, tr, outputfile, 
 }
 
 find_shortest_route_in_sea <- function(location, observations, tr){
-  #Remove duplicates
-  observations <- observations[!duplicated(observations),]
-  # Add column with distance
-  if(nrow(observations) > 10){
-    observations$distance <- pmax(abs(observations$Longitude - location$Longitude), 
-                         abs(observations$Latitude - location$Latitude))
-    # Get the 5th smallest distance and round it up
-    dist = ceiling(sort(observations$distance)[10])
-    observations <- observations[observations$distance < dist,]
-  }
-  # I'm not completely sure about this part of the code. I think the bug should be fixed not avoided :(
-  #Change any entries which are considered to be in the same "box" on the map as the sampling location. (observationsolution is 0.3, 0.15), as this would yield an error in the shortestPath function. 
-  observations$Latitude <- ifelse(between(observations$Longitude, location$Longitude - 0.3, location$Longitude + 0.3) &
-                                  between(observations$Latitude, location$Latitude - 0.15, location$Latitude), 
-                                observations$Latitude - 0.16,
-                                observations$Latitude)
-  observations$Latitude <- ifelse(between(observations$Longitude, location$Longitude - 0.3, location$Longitude + 0.3) &
-                                  between(observations$Latitude, location$Latitude, location$Latitude + 0.15), 
-                                observations$Latitude + 0.16,
-                                observations$Latitude)
-  # I don't see why we do this, but okay
-  x <- rep("NA", nrow(observations))
-  # find the shortest route to every point through the sea
-  x <- sapply(1:nrow(observations), function(i) {
-    gbif_occurrence <- structure(c(observations$Longitude[i], observations$Latitude[i]), .Dim = 1:2)
-    path <- shortestPath(tr, structure(as.numeric(location), .Dim = 1:2), gbif_occurrence, output = "SpatialLines")
-    x[i] <- geosphere::lengthLine(path)
-  })
-  # Find the closest location the point of sampling
-  distance <- min(as.numeric(x), na.rm=T)/1000
-  return(distance)
+  
 }
 
 ################################### Main Function ###########################################
@@ -162,11 +132,43 @@ sapply(df$Specieslist, function(species){
 long <- pivot_longer(df, !Specieslist)
 long <- long[long$value > 0, ]
 
-apply(long[1:2,], 1, function(row){
+apply(long, 1, function(row){
   samplelocation <- Coordinates[Coordinates$Observatory.ID == row[2], c("Longitude", "Latitude")]
   occurence_data <- check_occurence_data(row[1])
-  dist <- find_shortest_route_in_sea(samplelocation, occurence_data, tr)
-  # return(row)
-  return(dist)
+  #Remove duplicates
+  occurence_data <- occurence_data[!duplicated(occurence_data),]
+  # Add column with distance
+  if(nrow(occurence_data) > 10){
+    occurence_data$distance <- pmax(abs(occurence_data$Longitude - samplelocation$Longitude), 
+                                  abs(occurence_data$Latitude - samplelocation$Latitude))
+    # Get the 5th smallest distance and round it up
+    dist = ceiling(sort(occurence_data$distance)[10])
+    occurence_data <- occurence_data[occurence_data$distance < dist,]
+  }
+  row$pointscalculated <- nrow(occurence_data)
+  # I'm not completely sure about this part of the code. I think the bug should be fixed not avoided :(
+  #Change any entries which are considered to be in the same "box" on the map as the sampling location. (observationsolution is 0.3, 0.15), as this would yield an error in the shortestPath function. 
+  occurence_data$Latitude <- ifelse(between(occurence_data$Longitude, samplelocation$Longitude - 0.3, samplelocation$Longitude + 0.3) &
+                                    between(occurence_data$Latitude, samplelocation$Latitude - 0.15, samplelocation$Latitude), 
+                                  occurence_data$Latitude - 0.16,
+                                  occurence_data$Latitude)
+  occurence_data$Latitude <- ifelse(between(occurence_data$Longitude, samplelocation$Longitude - 0.3, samplelocation$Longitude + 0.3) &
+                                    between(occurence_data$Latitude, samplelocation$Latitude, samplelocation$Latitude + 0.15), 
+                                  occurence_data$Latitude + 0.16,
+                                  occurence_data$Latitude)
+  # I don't see why we do this, but okay
+  x <- rep("NA", nrow(occurence_data))
+  # find the shortest route to every point through the sea
+  x <- sapply(1:nrow(occurence_data), function(i) {
+    gbif_occurrence <- structure(c(occurence_data$Longitude[i], occurence_data$Latitude[i]), .Dim = 1:2)
+    path <- shortestPath(tr, structure(as.numeric(samplelocation), .Dim = 1:2), gbif_occurrence, output = "SpatialLines")
+    return(geosphere::lengthLine(path))
+  })
+  # Find the closest location the point of sampling
+  row$distance <- min(as.numeric(x), na.rm=T)
+  if(!file.exists("accurate.csv")){
+    write.table(paste(c(names(row)), collapse = ","), file = "accurate.csv", append = T, quote = F, sep = ",", col.names = F, row.names = F)
+  }
+  write.table(row, file = "accurate.csv", append = T, quote = F, sep = ",", col.names = F, row.names = F)
 })
-
+ 
