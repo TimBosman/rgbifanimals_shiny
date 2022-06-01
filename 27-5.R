@@ -110,6 +110,8 @@ find_closest_registered_place <- function(species, Coordinates, tr, outputfile, 
 }
 
 find_shortest_route_in_sea <- function(location, observations, tr){
+  #Remove duplicates
+  observations <- observations[!duplicated(observations),]
   # Add column with distance
   if(nrow(observations) > 10){
     observations$distance <- pmax(abs(observations$Longitude - location$Longitude), 
