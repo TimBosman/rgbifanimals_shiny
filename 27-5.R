@@ -69,8 +69,8 @@ plot_distribution <- function(Coordinates, res, plotname, title){
   ggplot() +
     geom_polygon(aes(x = long, y = lat, group = group), data = map_data("world")) +
     geom_hex(aes(x= Longitude, y = Latitude), data = res) +
-    #coord_cartesian(xlim = c(-30, 50), ylim = c(30,80)) +
-    #geom_label_repel(aes(x= Longitude, y = Latitude, label = Observatory.ID), data = Coordinates) +
+    # coord_cartesian(xlim = c(-30, 60), ylim = c(30,70)) +
+    # geom_label_repel(aes(x= Longitude, y = Latitude, label = Observatory.ID), data = Coordinates) +
     geom_point(aes(x= Longitude, y = Latitude), data = Coordinates, col = "red") + 
     ggtitle(title)
   ggsave(plotname)
