@@ -1,21 +1,14 @@
-# Load packages
-#library("raster")
+################################### Load Packages ############################################
 library("gdistance")
 library("maptools")
 library("dplyr")
-# library("rgdal")
-# library("jsonlite")
 require("geosphere")
-# require("curl")
 require("rgbif")
-# library("maps")
 library("ggplot2")
 library("ggrepel")
 library("tidyr")
-# library("units")
-# library("sf")
-# library("ggspatial")
-#require(parallel)
+
+################################### Functions ################################################
 
 create_rastered_world <- function(filename){
   # if the file is already made, it will load the file and return it
@@ -156,11 +149,11 @@ find_shortest_route_in_sea <- function(samplelocation, occurence_data, tr, row){
   write.table(row, file = "accurate.csv", append = T, quote = F, sep = ",", col.names = F, row.names = F)
 }
 
-################################### Main Function ###########################################
+################################### Main Function ############################################
 
 # Set working directory to directory where the R-script is saved
 setwd(dirname(rstudioapi::getActiveDocumentContext()$path)) # requires installation of package "rstudioapi"
-#Create a rastered world
+# Create a rastered world
 tr <- create_rastered_world("inputs/tr.rdata")
 # Read a species list
 df <- readRDS("inputs/BOLDigger_Species_Location.rds")
