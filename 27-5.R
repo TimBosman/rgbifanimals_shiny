@@ -109,17 +109,27 @@ find_closest_registered_place <- function(species, Coordinates, tr, outputfile, 
               quote = FALSE, col.names = FALSE, row.names = FALSE)
 }
 
+filter_n_closest_coordinate_ceiling <- function(n, occurence_data, samplelocation){
+  occurence_data$distance <- pmax(abs(occurence_data$Longitude - samplelocation$Longitude), 
+                                  abs(occurence_data$Latitude - samplelocation$Latitude))
+  # Get the n-th smallest distance and round it up
+  dist = ceiling(sort(occurence_data$distance)[n])
+  occurence_data <- occurence_data[occurence_data$distance < dist,]
+  return(occurence_data)
+}
+
+sp_format <- function(Longitude, Latitude){
+  return(structure(c(Longitude, Latitude), .Dim = 1:2))
+}
+
 find_shortest_route_in_sea <- function(samplelocation, occurence_data, tr, row){
-  #Remove duplicates
+  # Remove duplicates
   occurence_data <- occurence_data[!duplicated(occurence_data),]
-  # Add column with distance
+  # Filter if there are more than 10 unique locations
   if(nrow(occurence_data) > 10){
-    occurence_data$distance <- pmax(abs(occurence_data$Longitude - samplelocation$Longitude), 
-                                    abs(occurence_data$Latitude - samplelocation$Latitude))
-    # Get the 5th smallest distance and round it up
-    dist = ceiling(sort(occurence_data$distance)[10])
-    occurence_data <- occurence_data[occurence_data$distance < dist,]
+    occurence_data <- filter_n_closest_coordinate_ceiling(10, occurence_data, samplelocation)
   }
+  # Save the number of points for which the distance will be calculated
   row$pointscalculated <- nrow(occurence_data)
   # I'm not completely sure about this part of the code. I think the bug should be fixed not avoided :(
   #Change any entries which are considered to be in the same "box" on the map as the sampling location. (observationsolution is 0.3, 0.15), as this would yield an error in the shortestPath function. 
@@ -131,16 +141,15 @@ find_shortest_route_in_sea <- function(samplelocation, occurence_data, tr, row){
                                       between(occurence_data$Latitude, samplelocation$Latitude, samplelocation$Latitude + 0.15), 
                                     occurence_data$Latitude + 0.16,
                                     occurence_data$Latitude)
-  # I don't see why we do this, but okay
-  x <- rep("NA", nrow(occurence_data))
   # find the shortest route to every point through the sea
-  x <- sapply(1:nrow(occurence_data), function(i) {
-    gbif_occurrence <- structure(c(occurence_data$Longitude[i], occurence_data$Latitude[i]), .Dim = 1:2)
-    path <- shortestPath(tr, structure(as.numeric(samplelocation), .Dim = 1:2), gbif_occurrence, output = "SpatialLines")
-    return(geosphere::lengthLine(path))
+  paths <- sapply(1:nrow(occurence_data), function(i) {
+    path <- shortestPath(tr, sp_format(as.numeric(samplelocation[1]), as.numeric(samplelocation[2])), 
+                         sp_format(occurence_data$Longitude[i], occurence_data$Latitude[i]), 
+                         output = "SpatialLines")
+    return(path)
   })
   # Find the closest location the point of sampling
-  row$distance <- min(as.numeric(x), na.rm=T)
+  row$distance <- min(as.numeric(sapply(paths, function(x) geosphere::lengthLine(x))), na.rm=T)
   if(!file.exists("accurate.csv")){
     write.table(paste(c(names(row)), collapse = ","), file = "accurate.csv", append = T, quote = F, sep = ",", col.names = F, row.names = F)
   }
@@ -158,15 +167,15 @@ df <- readRDS("inputs/BOLDigger_Species_Location.rds")
 # Read coordinates file
 Coordinates <- read.csv("inputs/Coordinates.csv")
 # Find for every location the shortest path to the species observation 
-# sapply(df$Specieslist, function(species){
-#   print(species)
-#   tryCatch(find_closest_registered_place(species, Coordinates, tr, "ShortestPath.csv"), error = function(e)return())
-# })
+sapply(df$Specieslist, function(species){
+  print(species)
+  tryCatch(find_closest_registered_place(species, Coordinates, tr, "ShortestPath.csv"), error = function(e)return())
+})
  
 long <- pivot_longer(df, !Specieslist)
 long <- long[long$value > 0, ]
 
-apply(long[1,], 1, function(row){
+apply(long, 1, function(row){
   samplelocation <- Coordinates[Coordinates$Observatory.ID == row[2], c("Longitude", "Latitude")]
   occurence_data <- check_occurence_data(row[1])
   find_shortest_route_in_sea(samplelocation, occurence_data, tr, row)
