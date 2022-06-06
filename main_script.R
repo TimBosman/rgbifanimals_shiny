@@ -36,23 +36,23 @@ create_rastered_world <- function(filename){
   return(tr)
 }
 
-get_occurence_data <- function(species){
+get_occurrence_data <- function(species){
   res = occ_data(scientificName = species, hasCoordinate = TRUE, limit = 200000)
   res <- res$data[, c('decimalLongitude', 'decimalLatitude')]
   #rename the column names
   colnames(res) <- c('Longitude', 'Latitude')
-  # Remove occurances where longitude or latitude is NA
+  # Remove occurrences where longitude or latitude is NA
   res <- res[!is.na(res$Latitude) & !is.na(res$Longitude),]
   return(res)
 }
 
-check_occurence_data <- function(species){
-  filename = paste0("OccuranceData/", species, ".csv")
+check_occurrence_data <- function(species){
+  filename = paste0("OccurrenceData/", species, ".csv")
   if(file.exists(filename)){
     res <- read.csv(filename, header = TRUE)
     return(res)
   } else {
-    res <- get_occurence_data(species)
+    res <- get_occurrence_data(species)
     write.csv(res, file = filename, quote = FALSE, row.names = FALSE)
     return(res)
   }
@@ -70,10 +70,10 @@ plot_distribution <- function(Coordinates, res, plotname, title){
 }
 
 find_closest_registered_place <- function(species, Coordinates, tr, outputfile, plot=TRUE){
-  # Check the occurence data, If there is an error there it catches it and writes an error in the output file
-  tryCatch(res <- check_occurence_data(species),
+  # Check the occurrence data, If there is an error there it catches it and writes an error in the output file
+  tryCatch(res <- check_occurrence_data(species),
            error = function(errormessage){
-             write.table(paste(c(species, rep("", 15), "ERROR while getting the occurence data"), 
+             write.table(paste(c(species, rep("", 15), "ERROR while getting the occurrence data"), 
                                collapse = ","), file = outputfile, append = TRUE, quote = FALSE, 
                          col.names = FALSE, row.names = FALSE)
            })
@@ -102,42 +102,42 @@ find_closest_registered_place <- function(species, Coordinates, tr, outputfile, 
               quote = FALSE, col.names = FALSE, row.names = FALSE)
 }
 
-filter_n_closest_coordinate_ceiling <- function(n, occurence_data, samplelocation){
-  occurence_data$distance <- pmax(abs(occurence_data$Longitude - samplelocation$Longitude), 
-                                  abs(occurence_data$Latitude - samplelocation$Latitude))
+filter_n_closest_coordinate_ceiling <- function(n, occurrence_data, samplelocation){
+  occurrence_data$distance <- pmax(abs(occurrence_data$Longitude - samplelocation$Longitude), 
+                                  abs(occurrence_data$Latitude - samplelocation$Latitude))
   # Get the n-th smallest distance and round it up
-  dist = ceiling(sort(occurence_data$distance)[n])
-  occurence_data <- occurence_data[occurence_data$distance < dist,]
-  return(occurence_data)
+  dist = ceiling(sort(occurrence_data$distance)[n])
+  occurrence_data <- occurrence_data[occurrence_data$distance < dist,]
+  return(occurrence_data)
 }
 
 sp_format <- function(Longitude, Latitude){
   return(structure(c(Longitude, Latitude), .Dim = 1:2))
 }
 
-find_shortest_route_in_sea <- function(samplelocation, occurence_data, tr, row){
+find_shortest_route_in_sea <- function(samplelocation, occurrence_data, tr, row){
   # Remove duplicates
-  occurence_data <- occurence_data[!duplicated(occurence_data),]
+  occurrence_data <- occurrence_data[!duplicated(occurrence_data),]
   # Filter if there are more than 10 unique locations
-  if(nrow(occurence_data) > 10){
-    occurence_data <- filter_n_closest_coordinate_ceiling(10, occurence_data, samplelocation)
+  if(nrow(occurrence_data) > 10){
+    occurrence_data <- filter_n_closest_coordinate_ceiling(10, occurrence_data, samplelocation)
   }
   # Save the number of points for which the distance will be calculated
-  row$pointscalculated <- nrow(occurence_data)
+  row$pointscalculated <- nrow(occurrence_data)
   # I'm not completely sure about this part of the code. I think the bug should be fixed not avoided :(
   #Change any entries which are considered to be in the same "box" on the map as the sampling location. (observationsolution is 0.3, 0.15), as this would yield an error in the shortestPath function. 
-  occurence_data$Latitude <- ifelse(between(occurence_data$Longitude, samplelocation$Longitude - 0.3, samplelocation$Longitude + 0.3) &
-                                      between(occurence_data$Latitude, samplelocation$Latitude - 0.15, samplelocation$Latitude), 
-                                    occurence_data$Latitude - 0.16,
-                                    occurence_data$Latitude)
-  occurence_data$Latitude <- ifelse(between(occurence_data$Longitude, samplelocation$Longitude - 0.3, samplelocation$Longitude + 0.3) &
-                                      between(occurence_data$Latitude, samplelocation$Latitude, samplelocation$Latitude + 0.15), 
-                                    occurence_data$Latitude + 0.16,
-                                    occurence_data$Latitude)
+  occurrence_data$Latitude <- ifelse(between(occurrence_data$Longitude, samplelocation$Longitude - 0.3, samplelocation$Longitude + 0.3) &
+                                      between(occurrence_data$Latitude, samplelocation$Latitude - 0.15, samplelocation$Latitude), 
+                                    occurrence_data$Latitude - 0.16,
+                                    occurrence_data$Latitude)
+  occurrence_data$Latitude <- ifelse(between(occurrence_data$Longitude, samplelocation$Longitude - 0.3, samplelocation$Longitude + 0.3) &
+                                      between(occurrence_data$Latitude, samplelocation$Latitude, samplelocation$Latitude + 0.15), 
+                                    occurrence_data$Latitude + 0.16,
+                                    occurrence_data$Latitude)
   # find the shortest route to every point through the sea
-  paths <- sapply(1:nrow(occurence_data), function(i) {
+  paths <- sapply(1:nrow(occurrence_data), function(i) {
     path <- shortestPath(tr, sp_format(as.numeric(samplelocation[1]), as.numeric(samplelocation[2])), 
-                         sp_format(occurence_data$Longitude[i], occurence_data$Latitude[i]), 
+                         sp_format(occurrence_data$Longitude[i], occurrence_data$Latitude[i]), 
                          output = "SpatialLines")
     return(path)
   })
@@ -170,7 +170,7 @@ long <- long[long$value > 0, ]
 
 apply(long, 1, function(row){
   samplelocation <- Coordinates[Coordinates$Observatory.ID == row[2], c("Longitude", "Latitude")]
-  occurence_data <- check_occurence_data(row[1])
-  find_shortest_route_in_sea(samplelocation, occurence_data, tr, row)
+  occurrence_data <- check_occurrence_data(row[1])
+  find_shortest_route_in_sea(samplelocation, occurrence_data, tr, row)
 })
  
