@@ -111,8 +111,8 @@ filter_n_closest_coordinate_ceiling <- function(n, occurrence_data, samplelocati
   return(occurrence_data)
 }
 
-sp_format <- function(Longitude, Latitude){
-  return(structure(c(Longitude, Latitude), .Dim = 1:2))
+sp_format <- function(coordinates){
+  return(structure(as.numeric(c(coordinates["Longitude"], coordinates["Latitude"])), .Dim = 1:2))
 }
 
 find_shortest_route_in_sea <- function(samplelocation, occurrence_data, tr, row){
@@ -136,8 +136,8 @@ find_shortest_route_in_sea <- function(samplelocation, occurrence_data, tr, row)
                                      occurrence_data$Latitude)
   # find the shortest route to every point through the sea
   paths <- sapply(1:nrow(occurrence_data), function(i) {
-    path <- shortestPath(tr, sp_format(as.numeric(samplelocation[1]), as.numeric(samplelocation[2])), 
-                         sp_format(occurrence_data$Longitude[i], occurrence_data$Latitude[i]), 
+    path <- shortestPath(tr, sp_format(samplelocation), 
+                         sp_format(occurrence_data[i,]), 
                          output = "SpatialLines")
     return(path)
   })
