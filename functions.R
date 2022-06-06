@@ -148,3 +148,15 @@ find_shortest_route_in_sea <- function(samplelocation, occurrence_data, tr, row)
   }
   write.table(row, file = "accurate.csv", append = T, quote = F, sep = ",", col.names = F, row.names = F)
 }
+
+plot_shortest_path <- function(path, SampleLocation, findLocations){
+  ggplot() +
+    geom_polygon(aes(x = long, y = lat, group = group), data = map_data("world")) +
+    theme_void() +
+    coord_cartesian(xlim = c(-25, 60), ylim = c(35,70)) +
+    geom_point(aes(x= Longitude, y = Latitude), data = SampleLocation, col = "red") +
+    geom_point(aes(x= Longitude, y = Latitude), data = findLocations, col = "black") +
+    geom_path(aes(x=long,y=lat), color="blue", size = 2,
+              data=fortify(SpatialLinesDataFrame(path, data = data.frame(ID = 1))))+
+    geom_label_repel(aes(x= Longitude, y = Latitude, label = Observatory.ID), data = SampleLocation) +
+}
