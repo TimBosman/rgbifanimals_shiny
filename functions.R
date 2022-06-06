@@ -158,5 +158,5 @@ plot_shortest_path <- function(path, SampleLocation, findLocations){
     geom_point(aes(x= Longitude, y = Latitude), data = findLocations, col = "black") +
     geom_path(aes(x=long,y=lat), color="blue", size = 2,
               data=fortify(SpatialLinesDataFrame(path, data = data.frame(ID = 1))))+
-    geom_label_repel(aes(x= Longitude, y = Latitude, label = Observatory.ID), data = SampleLocation) +
+    geom_label_repel(aes(x= Longitude, y = Latitude, label = Observatory.ID), data = SampleLocation)
 }
