@@ -121,7 +121,7 @@ find_shortest_route_in_sea <- function(samplelocation, occurrence_data, tr, row,
   # Remove samples taken further away than the closest point
   occurrence_data <- filter_on_distance(tr, samplelocation, occurrence_data)
   # Filter if there are more than 10 unique locations
-  print(nrow(occurrence_data))
+  row$inrange <- nrow(occurrence_data)
   if(nrow(occurrence_data) > 10){
     occurrence_data <- filter_n_closest_coordinate_ceiling(10, occurrence_data, samplelocation)
   }
