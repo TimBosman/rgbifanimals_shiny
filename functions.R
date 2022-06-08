@@ -118,22 +118,15 @@ sp_format <- function(coordinates){
 find_shortest_route_in_sea <- function(samplelocation, occurrence_data, tr, row){
   # Remove duplicates
   occurrence_data <- occurrence_data[!duplicated(occurrence_data),]
+  # Remove samples taken further away than the closest point
+  occurrence_data <- filter_on_distance(tr, samplelocation, occurrence_data)
   # Filter if there are more than 10 unique locations
+  print(nrow(occurrence_data))
   if(nrow(occurrence_data) > 10){
     occurrence_data <- filter_n_closest_coordinate_ceiling(10, occurrence_data, samplelocation)
   }
   # Save the number of points for which the distance will be calculated
   row$pointscalculated <- nrow(occurrence_data)
-  # I'm not completely sure about this part of the code. I think the bug should be fixed not avoided :(
-  #Change any entries which are considered to be in the same "box" on the map as the sampling location. (observationsolution is 0.3, 0.15), as this would yield an error in the shortestPath function. 
-  occurrence_data$Latitude <- ifelse(between(occurrence_data$Longitude, samplelocation$Longitude - 0.3, samplelocation$Longitude + 0.3) &
-                                       between(occurrence_data$Latitude, samplelocation$Latitude - 0.15, samplelocation$Latitude), 
-                                     occurrence_data$Latitude - 0.16,
-                                     occurrence_data$Latitude)
-  occurrence_data$Latitude <- ifelse(between(occurrence_data$Longitude, samplelocation$Longitude - 0.3, samplelocation$Longitude + 0.3) &
-                                       between(occurrence_data$Latitude, samplelocation$Latitude, samplelocation$Latitude + 0.15), 
-                                     occurrence_data$Latitude + 0.16,
-                                     occurrence_data$Latitude)
   # find the shortest route to every point through the sea
   paths <- sapply(1:nrow(occurrence_data), function(i) {
     path <- shortestPath(tr, sp_format(samplelocation), 
@@ -159,4 +152,12 @@ plot_shortest_path <- function(path, SampleLocation, findLocations){
     geom_path(aes(x=long,y=lat), color="blue", size = 2,
               data=fortify(SpatialLinesDataFrame(path, data = data.frame(ID = 1))))+
     geom_label_repel(aes(x= Longitude, y = Latitude, label = Observatory.ID), data = SampleLocation)
+}
+
+filter_on_distance <- function(tr, samplelocation, occurrence_data){
+  distances <- distm(samplelocation, occurrence_data, fun = distVincentyEllipsoid)
+  sea_dist <-  geosphere::lengthLine(shortestPath(tr, sp_format(samplelocation), 
+                                                  sp_format(occurrence_data[which.min(distances),]), 
+                                                  output = "SpatialLines"))
+  return(occurrence_data <- occurrence_data[distances <= sea_dist,])
 }
