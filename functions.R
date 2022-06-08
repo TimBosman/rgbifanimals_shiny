@@ -115,7 +115,7 @@ sp_format <- function(coordinates){
   return(structure(as.numeric(c(coordinates["Longitude"], coordinates["Latitude"])), .Dim = 1:2))
 }
 
-find_shortest_route_in_sea <- function(samplelocation, occurrence_data, tr, row){
+find_shortest_route_in_sea <- function(samplelocation, occurrence_data, tr, row, filename){
   # Remove duplicates
   occurrence_data <- occurrence_data[!duplicated(occurrence_data),]
   # Remove samples taken further away than the closest point
@@ -136,10 +136,10 @@ find_shortest_route_in_sea <- function(samplelocation, occurrence_data, tr, row)
   })
   # Find the closest location the point of sampling
   row$distance <- min(as.numeric(sapply(paths, function(x) geosphere::lengthLine(x))), na.rm=T)
-  if(!file.exists("accurate.csv")){
-    write.table(paste(c(names(row)), collapse = ","), file = "accurate.csv", append = T, quote = F, sep = ",", col.names = F, row.names = F)
+  if(!file.exists(filename)){
+    write.table(paste(c(names(row)), collapse = ","), file = filename, append = T, quote = F, sep = ",", col.names = F, row.names = F)
   }
-  write.table(row, file = "accurate.csv", append = T, quote = F, sep = ",", col.names = F, row.names = F)
+  write.table(row, file = filename, append = T, quote = F, sep = ",", col.names = F, row.names = F)
 }
 
 plot_shortest_path <- function(path, SampleLocation, findLocations){
