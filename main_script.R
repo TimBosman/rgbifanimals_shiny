@@ -20,7 +20,13 @@ long <- long[long$value > 0, ]
 
 apply(long, 1, function(row){
   samplelocation <- Coordinates[Coordinates$Observatory.ID == row[2], c("Longitude", "Latitude")]
-  occurrence_data <- check_occurrence_data(row[1])
-  find_shortest_route_in_sea(samplelocation, occurrence_data, tr, row)
+  print(row[1])
+  tryCatch({occurrence_data <- check_occurrence_data(row[1])
+            find_shortest_route_in_sea(samplelocation, occurrence_data, tr, row)},
+           error = function(errormessage){
+             write.table(paste(c(row[1:2], 0, 0, NA), collapse = ","), file = "accurate.csv", 
+                         append = TRUE, quote = FALSE, col.names = FALSE, row.names = FALSE)
+           })
 })
+
  
