@@ -71,6 +71,10 @@ plot_distribution <- function(Coordinates, res, plotname, title){
 
 find_closest_registered_place <- function(species, Coordinates, tr, outputfile, plot=TRUE){
   # Check the occurrence data, If there is an error there it catches it and writes an error in the output file
+  if(check_in_file(species, outputfile)){
+    warning(paste(species, "has already been written to the file"))
+    return()
+  }
   tryCatch(res <- check_occurrence_data(species),
            error = function(errormessage){
              write.clean.csv(c(species, rep("", 15), "ERROR while getting the occurrence data"),
@@ -113,6 +117,10 @@ sp_format <- function(coordinates){
 }
 
 find_shortest_route_in_sea <- function(samplelocation, occurrence_data, tr, row, filename){
+  if(check_in_file(row, filename)){
+    warning(paste(c(as.character(row[1:2]), "has already been written"), collapse=" "))
+    return()
+  }
   # Remove duplicates
   occurrence_data <- occurrence_data[!duplicated(occurrence_data),]
   # Remove samples taken further away than the closest point
@@ -165,6 +173,6 @@ write.clean.csv <- function(list, outputfile){
 }
 
 check_in_file <- function(text, file){
-  contents <- readChar(file, file.info(filename)$size)
+  contents <- readChar(file, file.info(file)$size)
   return(length(grep(paste(text, collapse = ","), contents))>0)
 }
