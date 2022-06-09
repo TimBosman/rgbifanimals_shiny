@@ -176,3 +176,7 @@ check_in_file <- function(text, file){
   contents <- readChar(file, file.info(file)$size)
   return(length(grep(paste(text, collapse = ","), contents))>0)
 }
+
+check_official_name <- function(species){
+  return(wormsbynames(species)$valid_name)
+}
