@@ -163,3 +163,8 @@ write.clean.csv <- function(list, outputfile){
   write.table(paste(c(list),collapse = ","), file = outputfile, append = TRUE, quote = FALSE, 
               col.names = FALSE, row.names = FALSE)
 }
+
+check_in_file <- function(text, file){
+  contents <- readChar(file, file.info(filename)$size)
+  return(length(grep(paste(text, collapse = ","), contents))>0)
+}
