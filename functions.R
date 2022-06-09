@@ -53,7 +53,7 @@ check_occurrence_data <- function(species){
     return(res)
   } else {
     res <- get_occurrence_data(species)
-    write.csv(res, file = filename, quote = FALSE, row.names = FALSE)
+    write.clean.csv(res, filename)
     return(res)
   }
 }
@@ -73,9 +73,8 @@ find_closest_registered_place <- function(species, Coordinates, tr, outputfile, 
   # Check the occurrence data, If there is an error there it catches it and writes an error in the output file
   tryCatch(res <- check_occurrence_data(species),
            error = function(errormessage){
-             write.table(paste(c(species, rep("", 15), "ERROR while getting the occurrence data"), 
-                               collapse = ","), file = outputfile, append = TRUE, quote = FALSE, 
-                         col.names = FALSE, row.names = FALSE)
+             write.clean.csv(c(species, rep("", 15), "ERROR while getting the occurrence data"),
+                             outputfile)
            })
   obs = nrow(res)
   # Plot the distribution
@@ -93,13 +92,11 @@ find_closest_registered_place <- function(species, Coordinates, tr, outputfile, 
   shortest <- round(apply(distances, 2, function(dist) min(dist)), 0)
   # Add headers to the output file if it is not made already
   if(!file.exists(outputfile)){
-    write.table(paste(c("Speciesname", "Total observations", "Unique locations", 
-                        as.character(Coordinates$Observatory.ID), "Errors"), collapse = ","), 
-                file = outputfile, quote = FALSE, col.names = FALSE, row.names = FALSE)
+    write.clean.csv(c("Speciesname", "Total observations", "Unique locations", 
+                      as.character(Coordinates$Observatory.ID), "Errors"), outputfile)
   }
   # Writing results to the file
-  write.table(paste(c(species, obs, uobs, shortest, ""), collapse = ","), file = outputfile, append = TRUE, 
-              quote = FALSE, col.names = FALSE, row.names = FALSE)
+  write.clean.csv(c(species, obs, uobs, shortest, ""), outputfile)
 }
 
 filter_n_closest_coordinate_ceiling <- function(n, occurrence_data, samplelocation){
@@ -137,9 +134,9 @@ find_shortest_route_in_sea <- function(samplelocation, occurrence_data, tr, row,
   # Find the closest location the point of sampling
   row$distance <- min(as.numeric(sapply(paths, function(x) geosphere::lengthLine(x))), na.rm=T)
   if(!file.exists(filename)){
-    write.table(paste(c(names(row)), collapse = ","), file = filename, append = T, quote = F, sep = ",", col.names = F, row.names = F)
+    write.clean.csv(c(names(row)), filename)
   }
-  write.table(row, file = filename, append = T, quote = F, sep = ",", col.names = F, row.names = F)
+  write.clean.csv(row, filename)
 }
 
 plot_shortest_path <- function(path, SampleLocation, findLocations){
@@ -160,4 +157,9 @@ filter_on_distance <- function(tr, samplelocation, occurrence_data){
                                                   sp_format(occurrence_data[which.min(distances),]), 
                                                   output = "SpatialLines"))
   return(occurrence_data <- occurrence_data[distances <= sea_dist,])
+}
+
+write.clean.csv <- function(list, outputfile){
+  write.table(paste(c(list),collapse = ","), file = outputfile, append = TRUE, quote = FALSE, 
+              col.names = FALSE, row.names = FALSE)
 }
