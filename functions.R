@@ -160,11 +160,17 @@ plot_shortest_path <- function(path, SampleLocation, findLocations){
 }
 
 filter_on_distance <- function(tr, samplelocation, occurrence_data){
-  distances <- distm(samplelocation, occurrence_data, fun = distVincentyEllipsoid)
+  distances <- distm(samplelocation[,c("Longitude", "Latitude")], 
+                     occurrence_data[,c("Longitude", "Latitude")], 
+                     fun = distVincentyEllipsoid)
   sea_dist <-  geosphere::lengthLine(shortestPath(tr, sp_format(samplelocation), 
                                                   sp_format(occurrence_data[which.min(distances),]), 
                                                   output = "SpatialLines"))
-  return(occurrence_data <- occurrence_data[distances <= sea_dist,])
+  filtered <- occurrence_data[distances <= sea_dist,]
+  if(nrow(filtered < 1)){
+    filtered <- occurence_data[which.min(distances),]
+  }
+  return(filtered)
 }
 
 write.clean.csv <- function(list, outputfile){
