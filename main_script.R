@@ -20,14 +20,14 @@ long <- long[long$value > 0, ]
 
 outputfile = "output.csv"
 
-apply(long[1,], 1, function(row){
+apply(long[1:250,], 1, function(row){
   print(as.character(row[1]))
   if(!file.exists(outputfile)){
     write.clean.csv(c("species", "location","seqsfound", "straightdis", "seadis","pointcalculated"), outputfile)
   }
   samplelocation <- Coordinates[as.character(Coordinates$Observatory.ID) == as.character(row[2]), c("Longitude", "Latitude")]
   tryCatch({occurrence_data <- check_occurrence_data(row[1])},
-           error = function(i) write.clean.csv(c(row, 0, 0, NA), outputfile)
+           error = function(i) {write.clean.csv(c(row, 0, 0, NA), outputfile);return()}
   )
   # Remove duplicates
   occurrence_data <- occurrence_data[!duplicated(occurrence_data),]
@@ -35,11 +35,12 @@ apply(long[1,], 1, function(row){
   distances <- distm(samplelocation, occurrence_data, fun = distVincentyEllipsoid)
   closest <- occurrence_data[which.min(distances),]
   # step2: Calculate the length through sea for the closest point
-  tryCatch(
-    path <- shortestPath(tr, sp_format(samplelocation), sp_format(closest), output = "SpatialLines"),
-    error = function(i) write.clean.csv(c(row, min(distances), NA, 0), outputfile)
+  tryCatch({
+    path <- shortestPath(tr, sp_format(samplelocation), sp_format(closest), output = "SpatialLines")
+    sea_dist <-  geosphere::lengthLine(path)},
+    error = function(i) {write.clean.csv(c(row, min(distances), NA, 0), outputfile);return()}
   )
-  sea_dist <-  geosphere::lengthLine(path)
+  
   occurrence_data <- occurrence_data[distances <= sea_dist,]
   if(nrow(occurrence_data) <= 1){
     write.clean.csv(c(row,  min(distances), sea_dist, 1), outputfile);return()
@@ -47,8 +48,8 @@ apply(long[1,], 1, function(row){
   # Save the number of points for which the distance will be calculated
   pointscalculated <- nrow(occurrence_data)
   sea_dists <- sapply(1:nrow(occurrence_data), function(i) {
-    path <- shortestPath(tr, sp_format(samplelocation), 
-                         sp_format(occurrence_data[i,]), 
+    path <- shortestPath(tr, sp_format(samplelocation),
+                         sp_format(occurrence_data[i,]),
                          output = "SpatialLines")
     return(geosphere::lengthLine(path))
   })
