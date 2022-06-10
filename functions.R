@@ -7,6 +7,7 @@ require("rgbif")
 library("ggplot2")
 library("ggrepel")
 library("tidyr")
+library("worms")
 
 ################################### Functions ################################################
 
@@ -117,6 +118,9 @@ sp_format <- function(coordinates){
 }
 
 find_shortest_route_in_sea <- function(samplelocation, occurrence_data, tr, row, filename){
+  if(!file.exists(filename)){
+    write.clean.csv(c(names(row), "inrange", "pointscalculated","distance"), filename)
+  }
   if(check_in_file(row, filename)){
     warning(paste(c(as.character(row[1:2]), "has already been written"), collapse=" "))
     return()
@@ -141,9 +145,6 @@ find_shortest_route_in_sea <- function(samplelocation, occurrence_data, tr, row,
   })
   # Find the closest location the point of sampling
   row$distance <- min(as.numeric(sapply(paths, function(x) geosphere::lengthLine(x))), na.rm=T)
-  if(!file.exists(filename)){
-    write.clean.csv(c(names(row)), filename)
-  }
   write.clean.csv(row, filename)
 }
 
