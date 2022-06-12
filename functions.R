@@ -53,11 +53,13 @@ check_occurrence_data <- function(species){
     res <- read.csv(filename, header = TRUE)
     return(res)
   } else {
-    res <- get_occurrence_data(species)
-    write.clean.csv(res, filename)
+    try(res <- get_occurrence_data(species))
+    try(res <- get_occurrence_data(check_official_name(species)))
+    if(nrow(res)==0) stop("There is no information for this species found")
     return(res)
   }
 }
+
 
 plot_distribution <- function(Coordinates, res, plotname, title){
   ggplot() +

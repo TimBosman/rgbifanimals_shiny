@@ -12,7 +12,7 @@ Coordinates <- read.csv("inputs/Coordinates.csv")
 # Find for every location the shortest path to the species observation 
 sapply(df$Specieslist, function(species){
   print(species)
-  tryCatch(find_closest_registered_place(species, Coordinates, tr, "ShortestPath2.csv"), error = function(e)return())
+  tryCatch(find_closest_registered_place(species, Coordinates, tr, "ShortestPath.csv"), error = function(e)return())
 })
  
 long <- pivot_longer(df, !Specieslist)
