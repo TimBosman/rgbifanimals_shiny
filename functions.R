@@ -51,13 +51,12 @@ check_occurrence_data <- function(species){
   filename = paste0("OccurrenceData/", species, ".csv")
   if(file.exists(filename)){
     res <- read.csv(filename, header = TRUE)
-    return(res)
   } else {
     try(res <- get_occurrence_data(species))
     try(res <- get_occurrence_data(check_official_name(species)))
     if(nrow(res)==0) stop("There is no information for this species found")
-    return(res)
   }
+  return(res)
 }
 
 
@@ -96,7 +95,7 @@ find_closest_registered_place <- function(species, Coordinates, tr, outputfile, 
   distances <- distm(res[, c("Longitude", "Latitude")], Coordinates[, c("Longitude", "Latitude")], 
                      fun = distVincentyEllipsoid)
   # Find the closest point to every sampling location
-  shortest <- round(apply(distances, 2, function(dist) min(dist)), 0)
+  shortest <- round(apply(distances, 2, min), 0)
   # Add headers to the output file if it is not made already
   if(!file.exists(outputfile)){
     write.clean.csv(c("Speciesname", "Total observations", "Unique locations", 
@@ -164,9 +163,9 @@ plot_shortest_path <- function(path, SampleLocation, findLocations){
 
 filter_on_distance <- function(tr, samplelocation, occurrence_data){
   # step1: calculate all distances to samplelocation
-  distances <- distm(samplelocation[,c("Longitude", "Latitude")], 
+  distances <- as.numeric(distm(samplelocation[,c("Longitude", "Latitude")], 
                      occurrence_data[,c("Longitude", "Latitude")], 
-                     fun = distVincentyEllipsoid)
+                     fun = distVincentyEllipsoid))
   # step2: Calculate the length through sea for the closest point
   sea_dist <-  geosphere::lengthLine(shortestPath(tr, sp_format(samplelocation), 
                                                   sp_format(occurrence_data[which.min(distances),]), 
