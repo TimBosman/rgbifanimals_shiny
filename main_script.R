@@ -18,7 +18,7 @@ sapply(df$Specieslist, function(species){
 long <- pivot_longer(df, !Specieslist)
 long <- long[long$value > 0, ]
 
-apply(long[1:250,], 1, function(row){
+apply(long, 1, function(row){
   samplelocation <- Coordinates[Coordinates$Observatory.ID == row[2], c("Longitude", "Latitude")]
   print(row[1])
   tryCatch({occurrence_data <- check_occurrence_data(row[1])
@@ -29,4 +29,7 @@ apply(long[1:250,], 1, function(row){
            })
 })
 
- 
+
+# results <- read.csv("accurate.csv")
+# results <- results[!is.na(results$distance),]
+# write.csv(results, "accurate.csv", quote = F, row.names = F)

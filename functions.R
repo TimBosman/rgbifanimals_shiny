@@ -123,7 +123,7 @@ find_shortest_route_in_sea <- function(samplelocation, occurrence_data, tr, row,
   if(!file.exists(filename)){
     write.clean.csv(c(names(row), "inrange", "pointscalculated","distance"), filename)
   }
-  if(check_in_file(row, filename)){
+  if(check_in_file(row[1:2], filename)){
     warning(paste(c(as.character(row[1:2]), "has already been written"), collapse=" "))
     return()
   }
@@ -173,7 +173,11 @@ filter_on_distance <- function(tr, samplelocation, occurrence_data){
                                                   output = "SpatialLines"))
   # step3: filter out the datapoints further away than the sea_dist
   filtered <- occurrence_data[distances <= sea_dist,]
-  return(filtered)
+  if(nrow(filtered) > 0){
+    return(filtered)
+  } else {
+    occurrence_data[distances <= sea_dist * 1.1,]
+  }
 }
 
 write.clean.csv <- function(list, outputfile){
