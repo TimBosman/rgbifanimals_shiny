@@ -59,7 +59,6 @@ check_occurrence_data <- function(species){
   return(res)
 }
 
-
 plot_distribution <- function(Coordinates, res, plotname, title){
   ggplot() +
     geom_polygon(aes(x = long, y = lat, group = group), data = map_data("world")) +
@@ -175,7 +174,7 @@ filter_on_distance <- function(tr, samplelocation, occurrence_data){
   if(nrow(filtered) > 0){
     return(filtered)
   } else {
-    occurrence_data[distances <= sea_dist * 1.1,]
+    occurrence_data[distances <= sea_dist + 16000,]
   }
 }
 

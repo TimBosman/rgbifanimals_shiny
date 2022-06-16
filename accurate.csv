@@ -788,6 +788,21 @@ Sagartia troglodytes,BelgianCoast,21285,1,1,44797.6087912978
 Sagartia troglodytes,TZS,94,26,11,899009.02075568
 Spirontocaris phippsi,BelgianCoast,4,5,5,1785407.21211523
 Spirontocaris phippsi,TZS,5,97,18,2483615.64193783
+Amathia gracilis,Laeso,4,1,1,36242.9428642499
+Balanus crenatus,BelgianCoast,23,2,2,39338.9702698513
+Centropages hamatus,Roscoff,213,1,1,16680.7337292462
+Eubranchus exiguus,BelgianCoast,10,1,1,62256.7775271968
+Facelina bostoniensis,Laeso,103,1,1,16704.7855253224
+Gobiusculus flavescens,BelgianCoast,69,1,1,39338.9702698513
+Gyptis propinqua,Laeso,287,1,1,49399.7733009532
+Hydrobia ulvae,TZS,59,1,1,83551.5169003634
+Macrochaeta clavicornis,Laeso,2,2,2,49399.7733009532
+Nassarius nitidus,Laeso,6,1,1,37972.9580832272
+Nicolea zostericola,Laeso,5,1,1,16704.7855253224
+Pusillina inconspicua,Laeso,7,1,1,36242.9428642499
+Scrupocellaria scruposa,Laeso,22,1,1,16704.7855253224
+Scyliorhinus canicula,Laeso,22,1,1,37972.9580832272
+Subadyte pellucida,BelgianCoast,3,1,1,53154.6380311303
 Acrocnida brachiata,Plymouth,    4,0,0,NA
 Aetea truncata,Koster,10269,0,0,NA
 Aetea truncata,SwedishWestCoast, 1795,0,0,NA
@@ -797,7 +812,6 @@ Alcyonium digitatum,Plymouth,   10,0,0,NA
 Alitta saltoni,Roscoff,  141,0,0,NA
 Alvania punctura,Koster,   12,0,0,NA
 Alvania punctura,Laeso,   30,0,0,NA
-Amathia gracilis,Laeso,    4,0,0,NA
 Amathia gracilis,SwedishWestCoast,    4,0,0,NA
 Amathia gracilis complex,Roscoff,   53,0,0,NA
 Amathia gracilis complex,SwedishWestCoast,    4,0,0,NA
@@ -842,7 +856,6 @@ Austrominius modestus,Roscoff,  596,0,0,NA
 Balanus balanus,Koster,   46,0,0,NA
 Balanus balanus,Laeso, 6133,0,0,NA
 Balanus balanus,Plymouth,   44,0,0,NA
-Balanus crenatus,BelgianCoast,   23,0,0,NA
 Balanus crenatus,Koster,   75,0,0,NA
 Balanus crenatus,Laeso,96379,0,0,NA
 Balanus crenatus,Plymouth,   92,0,0,NA
@@ -857,10 +870,10 @@ Botrylloides leachii,Roscoff, 8022,0,0,NA
 Botrylloides leachii,SwedishWestCoast,22051,0,0,NA
 Botryllus schlosseri,Roscoff,    6,0,0,NA
 Bougainvillia muscus,Koster,  345,0,0,NA
-Bougainvillia muscus,Laeso,   29,0,0,NA
+Bougainvillia muscus,Laeso,   29,2,2,18121.4714321241
 Bougainvillia muscus,Plymouth, 2475,0,0,NA
 Bougainvillia muscus,Roscoff,   95,0,0,NA
-Calanus finmarchicus,BelgianCoast,   31,0,0,NA
+Calanus finmarchicus,BelgianCoast,   31,2,2,16689.3897211332
 Calliopius laeviusculus,Vigo,   17,0,0,NA
 Callopora lineata,Koster,    7,0,0,NA
 Callopora lineata,Plymouth,  864,0,0,NA
@@ -871,9 +884,8 @@ Carinina ochracea,Koster,    2,0,0,NA
 Celleporella hyalina,Koster,    9,0,0,NA
 Celleporella hyalina,Plymouth,    5,0,0,NA
 Centropages hamatus,Koster,  562,0,0,NA
-Centropages hamatus,Plymouth,  264,0,0,NA
-Centropages hamatus,Roscoff,  213,0,0,NA
-Centropages hamatus,Vigo,  514,0,0,NA
+Centropages hamatus,Plymouth,  264,6,6,16685.0817946159
+Centropages hamatus,Vigo,  514,1,1,24767.4640844721
 Cephalothix rufifrons,SwedishWestCoast,    9,0,0,NA
 Cephalothrix rufifrons,Koster,  119,0,0,NA
 Cephalothrix rufifrons,SwedishWestCoast, 2028,0,0,NA
@@ -909,7 +921,7 @@ Cryptosula pallasiana,Koster,17787,0,0,NA
 Cryptosula pallasiana,Plymouth, 1748,0,0,NA
 Cryptosula pallasiana,Roscoff,  154,0,0,NA
 Ctenolabrus rupestris,Koster,  242,0,0,NA
-Ctenolabrus rupestris,Laeso,    2,0,0,NA
+Ctenolabrus rupestris,Laeso,    2,3,3,16704.7855253224
 Ctenolabrus rupestris,Plymouth,  135,0,0,NA
 Ctenolabrus rupestris,SwedishWestCoast,    2,0,0,NA
 Cyanea capillata,Plymouth,    4,0,0,NA
@@ -924,7 +936,7 @@ Echinocardium cordatum,Laeso,    5,0,0,NA
 Echinocardium cordatum,SwedishWestCoast,  203,0,0,NA
 Echinus esculentus,Plymouth,    3,0,0,NA
 Edwardsia longicornis,Koster,   33,0,0,NA
-Electra pilosa,BelgianCoast,   93,0,0,NA
+Electra pilosa,BelgianCoast,   93,9,9,26657.0689215353
 Electra pilosa,Koster, 3302,0,0,NA
 Electra pilosa,Laeso,   55,0,0,NA
 Electra pilosa,Plymouth,  337,0,0,NA
@@ -944,8 +956,7 @@ Eualus cranchii,Plymouth,  212,0,0,NA
 Eualus occultus,Getxo,    8,0,0,NA
 Eualus occultus,Plymouth,  776,0,0,NA
 Eualus occultus,Roscoff,16946,0,0,NA
-Eualus pusiolus,Laeso,    5,0,0,NA
-Eubranchus exiguus,BelgianCoast,   10,0,0,NA
+Eualus pusiolus,Laeso,    5,1,1,18121.4714321241
 Eubranchus exiguus,Koster, 3182,0,0,NA
 Eubranchus exiguus,Laeso, 1179,0,0,NA
 Eubranchus exiguus,SwedishWestCoast, 1855,0,0,NA
@@ -955,7 +966,6 @@ Eulalia viridis,Koster,    9,0,0,NA
 Eulalia viridis,Laeso,   16,0,0,NA
 Eulalia viridis,Plymouth,   21,0,0,NA
 Eusyllis blomstrandi,Plymouth,  221,0,0,NA
-Facelina bostoniensis,Laeso,  103,0,0,NA
 Facelina bostoniensis,SwedishWestCoast,   39,0,0,NA
 Galathea squamifera,Koster,10359,0,0,NA
 Galathea squamifera,Laeso, 2109,0,0,NA
@@ -964,7 +974,6 @@ Galathea squamifera,Roscoff,   88,0,0,NA
 Galathea squamifera,SwedishWestCoast,    6,0,0,NA
 Gammarus locusta,Koster,   52,0,0,NA
 Gitana sarsi,Plymouth,  189,0,0,NA
-Gobiusculus flavescens,BelgianCoast,   69,0,0,NA
 Gobiusculus flavescens,Koster,35308,0,0,NA
 Gobiusculus flavescens,Plymouth,   73,0,0,NA
 Gobiusculus flavescens,Roscoff,30667,0,0,NA
@@ -973,8 +982,7 @@ Gobiusculus flavescens,TZS,  284,0,0,NA
 Gobiusculus flavescens,Vigo,   10,0,0,NA
 Goniada maculata,Koster,    6,0,0,NA
 Gonothyraea loveni,TZS,  506,0,0,NA
-Gyptis propinqua,Laeso,  287,0,0,NA
-Halichondria bowerbanki,Koster,    9,0,0,NA
+Halichondria bowerbanki,Koster,    9,2,2,16709.1389609878
 Halichondria bowerbanki,Roscoff,   62,0,0,NA
 Halichondria panicea,Koster,   10,0,0,NA
 Halichondria panicea,Plymouth,    2,0,0,NA
@@ -983,7 +991,7 @@ Halisarca dujardinii,Plymouth,  139,0,0,NA
 Halisarca dujardinii,SwedishWestCoast,   71,0,0,NA
 Haloschizopera pygmaea,Koster,  409,0,0,NA
 Harmothoe impar,Koster,  773,0,0,NA
-Harmothoe impar,Laeso,   92,0,0,NA
+Harmothoe impar,Laeso,   92,1,1,18121.4714321241
 Harmothoe impar,Plymouth, 1851,0,0,NA
 Harmothoe impar,SwedishWestCoast,  597,0,0,NA
 Hediste diversicolor,Koster,   45,0,0,NA
@@ -992,7 +1000,6 @@ Hediste diversicolor,Roscoff,66796,0,0,NA
 Hediste diversicolor,SwedishWestCoast,    7,0,0,NA
 Heteromastus filiformis,SwedishWestCoast,    6,0,0,NA
 Hydrobia ulvae,Koster,  726,0,0,NA
-Hydrobia ulvae,TZS,   59,0,0,NA
 Idotea balthica,Roscoff,  213,0,0,NA
 Ischyrocerus anguipes,Plymouth,   80,0,0,NA
 Jassa falcata,Plymouth,  589,0,0,NA
@@ -1022,7 +1029,6 @@ Liocarcinus navigator,Roscoff,  685,0,0,NA
 Liparis montagui,Plymouth, 3752,0,0,NA
 Littorina littorea,Roscoff,   10,0,0,NA
 Littorina littorea,Vigo,  528,0,0,NA
-Macrochaeta clavicornis,Laeso,    2,0,0,NA
 Magelona johnstoni,BelgianCoast,    9,0,0,NA
 Magelona johnstoni,Plymouth,   19,0,0,NA
 Marthasterias glacialis,Koster,   63,0,0,NA
@@ -1034,7 +1040,7 @@ Membranipora membranacea,Plymouth, 1024,0,0,NA
 Membranipora membranacea,Roscoff,  286,0,0,NA
 Membranipora membranacea,SwedishWestCoast,  148,0,0,NA
 Mesochra pygmaea,Koster,  469,0,0,NA
-Metridium dianthus,Laeso,   15,0,0,NA
+Metridium dianthus,Laeso,   15,1,1,24619.1826373445
 Metridium dianthus,Plymouth,   22,0,0,NA
 Microdeutopus gryllotalpa,Koster,  171,0,0,NA
 Microporella ciliata,Plymouth, 7462,0,0,NA
@@ -1043,7 +1049,7 @@ Micrura fasciolata,SwedishWestCoast,    8,0,0,NA
 Modiolula phaseolina,Koster,   33,0,0,NA
 Monocorophium acherusicum,Plymouth,    3,0,0,NA
 Monocorophium insidiosum,Koster,    7,0,0,NA
-Monocorophium insidiosum,Laeso,    4,0,0,NA
+Monocorophium insidiosum,Laeso,    4,33,33,39840.4403477311
 Monocorophium insidiosum,Plymouth,    8,0,0,NA
 Musculus subpictus,Koster,   79,0,0,NA
 Musculus subpictus,Plymouth,   11,0,0,NA
@@ -1051,13 +1057,12 @@ Myrianida edwarsi,Koster,   38,0,0,NA
 Myrianida edwarsi,Plymouth,  650,0,0,NA
 Myrianida inermis,Plymouth,   20,0,0,NA
 Myrianida longoprimicirrata,Koster, 1729,0,0,NA
-Myrianida prolifera,BelgianCoast,  127,0,0,NA
+Myrianida prolifera,BelgianCoast,  127,24,24,16688.9610738773
 Mytilus edulis,Koster,    5,0,0,NA
 Mytilus edulis,Roscoff,   11,0,0,NA
 Mytilus edulis,SwedishWestCoast,   33,0,0,NA
 Nais elinguis,TZS,   11,0,0,NA
 Nassarius incrassatus,SwedishWestCoast,    7,0,0,NA
-Nassarius nitidus,Laeso,    6,0,0,NA
 Nephtys kersivalensis,SwedishWestCoast,    6,0,0,NA
 Nereimyra punctata,Koster,  495,0,0,NA
 Nereimyra punctata,Laeso, 5768,0,0,NA
@@ -1068,12 +1073,11 @@ Nereis pelagica,Koster,  255,0,0,NA
 Nereis pelagica,Laeso,    1,0,0,NA
 Nereis pelagica,Plymouth, 4899,0,0,NA
 Nicolea zostericola,Koster,25315,0,0,NA
-Nicolea zostericola,Laeso,    5,0,0,NA
 Nicolea zostericola,Plymouth,  231,0,0,NA
 Nucula sulcata,SwedishWestCoast,   33,0,0,NA
 Obelia bidentata,BelgianCoast,   76,0,0,NA
 Obelia dichotoma,Koster,  299,0,0,NA
-Obelia dichotoma,Laeso,   29,0,0,NA
+Obelia dichotoma,Laeso,   29,1,1,18121.4714321241
 Obelia dichotoma,Plymouth,  747,0,0,NA
 Obelia geniculata,Plymouth,    7,0,0,NA
 Obelia geniculata,Roscoff,   75,0,0,NA
@@ -1092,7 +1096,7 @@ Ophiopholis aculeata,BelgianCoast,    4,0,0,NA
 Ophiothrix fragilis,Koster,    9,0,0,NA
 Palaemon elegans,Koster,   86,0,0,NA
 Paradoneis lyra,Koster,  714,0,0,NA
-Paradoneis lyra,Laeso,   38,0,0,NA
+Paradoneis lyra,Laeso,   38,7,7,39840.4403477311
 Paranais litoralis,TZS,   12,0,0,NA
 Perforatus perforatus,Plymouth,   20,0,0,NA
 Perforatus perforatus,Roscoff,   67,0,0,NA
@@ -1125,7 +1129,7 @@ Polycera capitata,Plymouth,  130,0,0,NA
 Polycera quadrilineata,Plymouth,    9,0,0,NA
 Polycera quadrilineata,Roscoff,    2,0,0,NA
 Polycera quadrilineata,SwedishWestCoast,   37,0,0,NA
-Polydora cornuta,Laeso,   57,0,0,NA
+Polydora cornuta,Laeso,   57,1,1,18121.4714321241
 Polydora cornuta,Plymouth,  428,0,0,NA
 Pomatoschistus microps,BelgianCoast,   48,0,0,NA
 Pomatoschistus microps,Koster,29881,0,0,NA
@@ -1141,9 +1145,8 @@ Psamathe fusca,Roscoff,14586,0,0,NA
 Psammechinus miliaris,Limfjord,  370,0,0,NA
 Psammechinus miliaris,Plymouth,   13,0,0,NA
 Psammechinus miliaris,Roscoff,11224,0,0,NA
-Pseudocalanus elongatus,Vigo,   24,0,0,NA
-Pseudopotamilla reniformis,Laeso,    8,0,0,NA
-Pusillina inconspicua,Laeso,    7,0,0,NA
+Pseudocalanus elongatus,Vigo,   24,13,13,24767.4640844721
+Pseudopotamilla reniformis,Laeso,    8,2,2,24672.9825950449
 Pusillina inconspicua,Plymouth,   20,0,0,NA
 Pusillina sarsii,Koster,  128,0,0,NA
 Pythium chondricola,Getxo,   16,0,0,NA
@@ -1165,10 +1168,8 @@ Sarsia tubulosa,Koster,   39,0,0,NA
 Schistomysis kervillei,BelgianCoast,   10,0,0,NA
 Scopalina ceutensis,Koster,    9,0,0,NA
 Scrupocellaria scruposa,Koster, 4837,0,0,NA
-Scrupocellaria scruposa,Laeso,   22,0,0,NA
 Scrupocellaria scruposa,Plymouth,   45,0,0,NA
 Scrupocellaria scruposa,SwedishWestCoast,   25,0,0,NA
-Scyliorhinus canicula,Laeso,   22,0,0,NA
 Scyliorhinus canicula,Plymouth,    6,0,0,NA
 Scyliorhinus canicula,Roscoff,   46,0,0,NA
 Scyliorhinus canicula,SwedishWestCoast,    8,0,0,NA
@@ -1189,7 +1190,6 @@ Stomphia coccinea,Plymouth, 2546,0,0,NA
 Streptosyllis websteri,BelgianCoast,  645,0,0,NA
 Strongylacidon bermudae,Koster,   88,0,0,NA
 Strongylocentrotus droebachiensis,SwedishWestCoast,   20,0,0,NA
-Subadyte pellucida,BelgianCoast,    3,0,0,NA
 Subadyte pellucida,Plymouth,  126,0,0,NA
 Subadyte pellucida,Roscoff,  251,0,0,NA
 Syllidia armata,Koster,  224,0,0,NA
