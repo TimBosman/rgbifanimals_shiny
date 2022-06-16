@@ -779,6 +779,15 @@ Syllidia armata,Laeso,150,3,3,54643.4618563115
 Tachidius discipes,Laeso,360,2,2,169282.016400078
 Thoralus cranchii,Plymouth,44,5,5,166831.279843477
 Tricellaria ternata,Roscoff,65,1,1,208820.135553138
+Clytia languida,Limfjord,16771,39,13,149388.186778417
+Clytia languida,Roscoff,679,3,3,56623.4565657826
+Clytia languida,SwedishWestCoast,253,4,4,16707.5700592006
+Clytia languida,TZS,11,120,10,2485312.81877398
+Clytia languida,Vigo,1,7,7,71462.3203755565
+Sagartia troglodytes,BelgianCoast,21285,1,1,44797.6087912978
+Sagartia troglodytes,TZS,94,26,11,899009.02075568
+Spirontocaris phippsi,BelgianCoast,4,5,5,1785407.21211523
+Spirontocaris phippsi,TZS,5,97,18,2483615.64193783
 Acrocnida brachiata,Plymouth,    4,0,0,NA
 Aetea truncata,Koster,10269,0,0,NA
 Aetea truncata,SwedishWestCoast, 1795,0,0,NA
@@ -889,12 +898,7 @@ Clytia hemisphaerica,Plymouth,  504,0,0,NA
 Clytia languida,BelgianCoast,    8,0,0,NA
 Clytia languida,Koster,17128,0,0,NA
 Clytia languida,Laeso, 3229,0,0,NA
-Clytia languida,Limfjord,16771,0,0,NA
 Clytia languida,Plymouth, 8908,0,0,NA
-Clytia languida,Roscoff,  679,0,0,NA
-Clytia languida,SwedishWestCoast,  253,0,0,NA
-Clytia languida,TZS,   11,0,0,NA
-Clytia languida,Vigo,    1,0,0,NA
 Clytia xiamenensis,Roscoff,   10,0,0,NA
 Cordylophora caspia,TZS,    5,0,0,NA
 Corella parallelogramma,Koster, 3139,0,0,NA
@@ -1155,10 +1159,8 @@ Rissoa parva,SwedishWestCoast,  859,0,0,NA
 Ruditapes decussatus,Roscoff,    2,0,0,NA
 Sabellaria spinulosa,Koster,64146,0,0,NA
 Sabellaria spinulosa,Plymouth,   16,0,0,NA
-Sagartia troglodytes,BelgianCoast,21285,0,0,NA
 Sagartia troglodytes,Plymouth,    2,0,0,NA
 Sagartia troglodytes,Roscoff,13067,0,0,NA
-Sagartia troglodytes,TZS,   94,0,0,NA
 Sarsia tubulosa,Koster,   39,0,0,NA
 Schistomysis kervillei,BelgianCoast,   10,0,0,NA
 Scopalina ceutensis,Koster,    9,0,0,NA
@@ -1176,8 +1178,6 @@ Spio decorata,Plymouth,   26,0,0,NA
 Spio symphyta,Plymouth,    7,0,0,NA
 Spiralinella spiralis,Laeso,    6,0,0,NA
 Spiralinella spiralis,Plymouth,    7,0,0,NA
-Spirontocaris phippsi,BelgianCoast,    4,0,0,NA
-Spirontocaris phippsi,TZS,    5,0,0,NA
 Spisula subtruncata,Koster,   51,0,0,NA
 Spisula subtruncata,Laeso,   61,0,0,NA
 Squalus acanthias,Vigo,    8,0,0,NA
