@@ -8,7 +8,7 @@ These 4 R scripts will use BOLDigger output (or any other formatted sequence dat
 4. Necessary input files have to be placed in the _Inputs_ filder and consist of
   - The _Boldigger_output.csv_, an example of which can be found in the repository
   - A _MetaData.csv_, of which the structure can be found in the example file
-  - A _Synonyms.csv_ file, which contains taxonomic synonyms, to speed up processing.
+  - A _Synonyms.csv_ file, which contains taxonomic synonyms. This should be redundant as 3_Functions.R contains a function which checks the official name on WORMS, but making determined list can speed up processing.
 5. Run the R scripts in order.
   - 1_Preperation.R will prepare the data for use in 3_Main_script.R and 4_Visualisation.R by creating several additional dataframes from the BOLDigger output
     All necessary files from 1_Preperation.R will be saved into a new folder _Output_.
