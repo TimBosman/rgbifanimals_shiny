@@ -18,3 +18,4 @@ These 4 R scripts will use BOLDigger output (or any other formatted sequence dat
     - Both the distance as the crow flies, as well as the distance over sea are calculated.
     - Depending on the amount if input data, the latter can take several hours of computing time.
   - 4_Visualisation.R will use the dataframes from 1_Preparation.R and the distances calculated in 3_Main_script.R to create several plots regarding native and alien species distribution, and diversity indices.
+  - 5_Results.R is not necessary to run, but will provide insight in the ShortestPath versus DistanceOverSea differences
