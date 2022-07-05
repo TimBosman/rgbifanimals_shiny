@@ -1,23 +1,25 @@
 #Load all necessary packages
-pacman::p_load(dplyr, tidyverse)
+library("dplyr")
+library("tidyverse")
 
-#Set wd to wherever all files are stored
-setwd("C:/Users/Daniël van Berkel/OneDrive - WageningenUR/Documents/Master Thesis Göteborg/Thesis report/Data/GitHub/")
+#Set wd to wherever the script files are stored
+setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
+dir <- getwd()
 
 #Load BOLDigger output
-Data <- read.csv(file = "BOLDigger_output.csv", sep = ";", row.names = NULL)
+Data <- read.csv(file = "Inputs/BOLDigger_output.csv", sep = ";", row.names = NULL)
 
 #Extract locations of interest from main Data frame
 Locations_BOLD <- colnames(Data)
 Locations_BOLD <- as.data.frame(stringr::str_split_fixed(string = Locations_BOLD, pattern = "\\.", 2))
-LOI <- c("Toralla", "Getxo", "Vigo", "Roscoff", "Plymouth", "Galway", "BelgianCoast", "Bjorko", "Gbg", "Helsingborg", "Hjuvik", "Koster", "Laesoe1", "Laesoe2", "Laesoe3", "Limfjord", "Marstrand", "Preemraff", "Varberg", "Bod?", "Gdynia", "TZS")
+LOI <- c("Toralla", "Getxo", "Vigo", "Roscoff", "Plymouth", "Galway", "BelgianCoast", "Bjorko", "Gbg", "Helsingborg", "Hjuvik", "Koster", "Laesoe1", "Laesoe2", "Laesoe3", "Limfjord", "Marstrand", "Preemraff", "Varberg", "Gdynia", "TZS")
 Locations_BOLD <- Locations_BOLD %>% 
   filter(V1 %in% LOI)
 #Paste colnames back together for later filtering steps
 Locations_BOLD$V3 <- paste0(Locations_BOLD$V1, ".", Locations_BOLD$V2)
 
 #### Metadata ####
-MetaData <- read.csv("MetaData.csv")
+MetaData <- read.csv("Inputs/MetaData.csv")
 #Select applicable ARMS deployments
 MetaData <- left_join(MetaData, Locations_BOLD, by = c("Filename" = "V3"))
 #Clean-up of data
@@ -41,7 +43,7 @@ Data$Specieslist <- paste(Data$Genus, Data$Species)
 #Replace , with . in Similarity, to be able to assign numeric variable
 Data$Similarity <- gsub(",", ".", x = Data$Similarity, fixed = T)
 #Substitute species names with synonyms
-Synonyms <- read.csv("Synonyms.csv")
+Synonyms <- read.csv("Inputs/Synonyms.csv")
 Old_name <- Synonyms$Old_name
 New_name <- Synonyms$New_name
 Data$Specieslist[Data$Specieslist %in% Old_name] <- New_name[match(Data$Specieslist, Old_name, nomatch = 0)]
@@ -65,14 +67,14 @@ rm(RemovePhyla, RemoveSpecies)
 #### Set of additional dataframes for additional insight ####
 #Extract unique species with their corresponding lowest Similarity
 Uniques <- Data_LOI %>% 
-  select(Specieslist, Similarity) %>% 
+  dplyr::select(Specieslist, Similarity) %>% 
   arrange(Specieslist) %>%
   distinct() %>%
   group_by(Specieslist) %>%
   slice_min(order_by = Similarity, with_ties = T)
 
 #ASV count for each species
-ASV_Count <- Data_LOI[!duplicated(Data_LOI$sequence), ] %>% count(Specieslist)
+ASV_Count <- Data_LOI[!duplicated(Data_LOI$sequence), ] %>% dplyr::count(Specieslist)
 
 #Read count per ASV, per ARMS, per year (sum three fractions MF100, MF500, SF40) 
 #Create duplicate column names
@@ -86,8 +88,8 @@ rm(df, df2)
 
 #Read count per Species, per ARMS, per year
 Read_Count_Species_ARMS <- Read_Count_ASVs_ARMS %>%
-  select(-sequence, -Phylum, -Order, -Class, -Family, -Genus, -Species, -Similarity) %>%
-  select(Specieslist, sort(colnames(.))) %>%
+  dplyr::select(-sequence, -Phylum, -Order, -Class, -Family, -Genus, -Species, -Similarity) %>%
+  dplyr::select(Specieslist, sort(colnames(.))) %>%
   group_by(Specieslist) %>%
   summarise_all(sum)
 #Readable format
@@ -115,23 +117,26 @@ Pres_Abs[2:ncol(Pres_Abs)][Pres_Abs[2:ncol(Pres_Abs)] > 0] <- 1
 
 #Read count per species per fraction
 Read_Count_Species_Fraction <- Data_LOI  %>%
-  select(-sequence, -Phylum, -Order, -Class, -Family, -Genus, -Species, -Similarity) %>%
-  select(Specieslist, sort(colnames(.))) %>%
+  dplyr::select(-sequence, -Phylum, -Order, -Class, -Family, -Genus, -Species, -Similarity) %>%
+  dplyr::select(Specieslist, sort(colnames(.))) %>%
   group_by(Specieslist) %>%
   summarise_all(sum)
 
 #Export
-# write.csv(Uniques, "UniqueSpecies.csv", row.names = FALSE)
-# write.csv(ASV_Count, "ASV_Count.csv", row.names = FALSE)
-# write.csv(Read_Count_ASVs_ARMS, "Read_Count_ASVs_ARMS.csv", row.names = FALSE)
-# write.csv(Read_Count_Species_ARMS, "Read_Count_Species_ARMS.csv", row.names = FALSE)
-# write.csv(RC_Species_Loc_Year, "Read_Count_Species_Loc_Year.csv", row.names = FALSE)
-# rm(Uniques, Read_Count_ASVs_ARMS)
+dir.create(file.path(dir, "Output"))
+setwd(file.path(dir,"Output"))
+write.csv(Uniques, "UniqueSpecies.csv", row.names = FALSE)
+write.csv(ASV_Count, "ASV_Count.csv", row.names = FALSE)
+write.csv(Read_Count_ASVs_ARMS, "Read_Count_ASVs_ARMS.csv", row.names = FALSE)
+write.csv(Read_Count_Species_ARMS, "Read_Count_Species_ARMS.csv", row.names = FALSE)
+write.csv(RC_Species_Loc_Year, "Read_Count_Species_Loc_Year.csv", row.names = FALSE)
+write.csv(Read_Count_Species_Fraction, "Read_Count_Species_Fraction.csv", row.names = FALSE)
+write.csv(Data_LOI, "Data_LOI.csv", row.names = FALSE)
 
 #### Build dataframe to be used in AlienIdentification.R ####
 Species_Location <- Data_LOI  %>%
-  select(-sequence, -Phylum, -Order, -Class, -Family, -Genus, -Species, -Similarity) %>%
-  select(Specieslist, sort(colnames(.))) %>%
+  dplyr::select(-sequence, -Phylum, -Order, -Class, -Family, -Genus, -Species, -Similarity) %>%
+  dplyr::select(Specieslist, sort(colnames(.))) %>%
   group_by(Specieslist) %>%
   summarise_all(sum)
 colnames(Species_Location) <- c("Specieslist", MetaData$Observatory.ID)
@@ -139,6 +144,15 @@ df <- Species_Location
 #Merge columns with duplicate names and sum contents
 df2 <- sapply(unique(colnames(df)[duplicated(colnames(df))]), function(x) rowSums(df[,grepl(paste(x, "$", sep=""), colnames(df))]))
 Species_Location <- as.data.frame(cbind(df2, df[,!duplicated(colnames(df)) & !duplicated(colnames(df), fromLast = TRUE)]))
-Species_Location <- Species_Location %>% select(Specieslist, everything())
+Species_Location <- Species_Location %>% dplyr::select(Specieslist, everything())
 rm(df, df2)
 write.csv(Species_Location, "Species_Location.csv", row.names = F)
+
+#Export Coordinates, which are used in 3_Main_script and MetaData, which is used in 4_Visualisation
+setwd(dir)
+Coordinates <- MetaData %>% group_by(Observatory.ID) %>% dplyr::select(Observatory.ID, Longitude, Latitude) %>% slice_min(Longitude) %>% unique
+write.csv(Coordinates, "Inputs/Coordinates.csv", row.names = F)
+write.csv(MetaData, "Inputs/MetaData_Adjusted.csv", row.names = F)
+
+#### Clean R environment ####
+rm(list = ls())

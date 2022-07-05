@@ -191,3 +191,4 @@ check_in_file <- function(text, file){
 check_official_name <- function(species){
   return(wormsbynames(species)$valid_name)
 }
+
