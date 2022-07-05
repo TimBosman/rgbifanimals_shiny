@@ -36,3 +36,5 @@ rm(list = ls())
 results <- read.csv("Output/DistanceOverSea.csv")
 results <- results[!is.na(results$distance),]
 write.csv(results, "Output/DistanceOverSea.csv", quote = F, row.names = F)
+
+  
