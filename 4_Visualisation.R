@@ -327,4 +327,3 @@ chisq.test(Alien_Type_Stats)
 Alien_Type_Stats <- rownames_to_column(Alien_Type_Stats, "Monitoring_area")
 Alien_Type_Stats <- pivot_longer(Alien_Type_Stats, cols = c("Range expanders", "Cryptogenic", "Hitchhikers"))
 
-
