@@ -2,7 +2,7 @@
 These 4 R scripts will use BOLDigger output (or any other formatted sequence data containing taxonomic information), and determine the presence and diversity of alien species using GBIF occurrence data.
 
 ## User guide
-1. Copy the four R scripts in a new folder
+1. Copy the first four R scripts in a new folder
 2. Copy the folder _Inputs_ in the just created folder
 3. The _Inputs_ folder contains a tr.rdata file, which is used to calculate distances in 3_Main_script.R. Using this file saves some computing time.
 4. Necessary input files have to be placed in the _Inputs_ filder and consist of
