@@ -3,7 +3,7 @@ These 4 R scripts will use BOLDigger output (or any other formatted sequence dat
 
 ## User guide
 1. Copy the first four R scripts in a new folder
-2. Copy the folder _Inputs_ in the just created folder
+2. Copy the folder _Inputs_ and its content in the just created folder
 3. The _Inputs_ folder contains a tr.rdata file, which is used to calculate distances in 3_Main_script.R. Using this file saves some computing time.
 4. Necessary input files have to be placed in the _Inputs_ filder and consist of
   - The _Boldigger_output.csv_, an example of which can be found in the repository
