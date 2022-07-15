@@ -11,7 +11,7 @@ OTU_Table_Rar <- Read_Count_Species_ARMS
 OTU_Table_Rar <- column_to_rownames(OTU_Table_Rar, "Specieslist")
 OTU_Table_Rar <- as.matrix(t(OTU_Table_Rar))
 
-Rarefaction_df <- rarecurve(OTU_Table, step = 20,
+Rarefaction_df <- rarecurve(OTU_Table_Rar, step = 20,
                             col = "blue", 
                             cex = 0.6, tidy = T)
 ggplot(Rarefaction_df, aes(x = Sample, y = Species, group = Site)) +
@@ -103,8 +103,8 @@ Meta_RC_1000 <- Meta_RC_1000[complete.cases(Meta_RC_1000), ]
 Minimum_RC <- 1000
 Meta_RC_1000 <- filter(Meta_RC_1000, rowSums(Meta_RC_1000[,19:ncol(Meta_RC_1000)]) > Minimum_RC)
 #Select Species composition and environmental variables
-Com <- as.data.frame(Meta_RC_1000[, 19:ncol(Meta_RC_1000)])
-Env <- Meta_RC_1000 %>% select(AlienReadFraction, AlienSpeciesFraction, Country, Observatory.ID, Latitude, Longitude, Depth_m, Monitoring_area, Year, Sample_region_country)
+Com <- as.data.frame(Meta_RC_100[, 19:ncol(Meta_RC_100)])
+Env <- Meta_RC_100 %>% select(AlienReadFraction, AlienSpeciesFraction, Country, Observatory.ID, Latitude, Longitude, Depth_m, Monitoring_area, Year, Sample_region_country)
 Com <- sapply(Com, as.numeric)
 
 #Calculate nmds
@@ -278,6 +278,21 @@ Cryptogenic <- as.data.frame(unique(Cryptogenic$Speciesname))
 Cryptogenic$Alien_Type <- "Cryptogenic"
 colnames(Cryptogenic) <- c("Speciesname", "Alien_Type")
 
+# Plot native biodiversity and alien species fraction
+library("SciViews")
+palette_4 <- c("#440154", "#12c5ed", "#fde725", "#0fb859")
+ggplot(Meta_RC_100, aes(Non_Alien, AlienSpeciesFraction, color = Monitoring_area)) +
+  geom_point(size = 8, alpha = 0.7) +
+  stat_smooth(method = lm, formula = y ~ ln(x), inherit.aes = F, data = Meta_RC_100, mapping = aes(Non_Alien, AlienSpeciesFraction)) +
+  stat_regline_equation(formula = y ~ ln(x), inherit.aes = F, data = Meta_RC_100, 
+                        mapping = aes(Non_Alien, AlienSpeciesFraction, label = ..adj.rr.label..), size = 8, label.x = 60, label.y = 0.33) +
+  stat_regline_equation(formula = y ~ ln(x), inherit.aes = F, data = Meta_RC_100, 
+                        mapping = aes(Non_Alien, AlienSpeciesFraction, label = ..eq.label..), size = 8, label.x = 60, label.y = 0.37) +
+  theme_pubclean(base_size = 30) +
+  scale_color_manual(values = palette_4) +
+  xlab("Species with confirmed presence") +
+  ylab("New alien species fraction")
+
 #Add Alien_type to Taxonomix info, prepare for phyloseq
 Aliens_Tax <- as.data.frame(Tax_Info)
 Aliens_Tax <- Aliens_Tax %>% filter(Specieslist %in% Alien_Type$Speciesname)
@@ -326,4 +341,5 @@ colnames(Alien_Type_Stats) <- c("Range expanders", "Cryptogenic", "Hitchhikers")
 chisq.test(Alien_Type_Stats)
 Alien_Type_Stats <- rownames_to_column(Alien_Type_Stats, "Monitoring_area")
 Alien_Type_Stats <- pivot_longer(Alien_Type_Stats, cols = c("Range expanders", "Cryptogenic", "Hitchhikers"))
+
 
