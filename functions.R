@@ -18,5 +18,13 @@ plotMap <- function(df, locations, occurrence, size = ""){
     if(size == "eastsea"){
       plot <- plot + coord_cartesian(xlim = c(0, 30), ylim = c(50,65))
   }
-  print(plot)
+  return(plot)
+}
+
+plotBar<- function(df){
+  plot <- ggplot(pivot_longer(df, names(df)[-1])) + 
+    theme(axis.text.x = element_text(angle = 15)) +
+    geom_bar(aes(x = name, y = value, fill = name), stat = "identity") +
+    scale_fill_manual("Sample Location", values = locCols)
+  return(plot)
 }

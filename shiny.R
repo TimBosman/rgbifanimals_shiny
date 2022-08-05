@@ -41,12 +41,8 @@ server <- function(input, output){
   occurrence <- eventReactive(input$species, {
     read.csv(paste0("OccurrenceData/", input$species, ".csv"))
   })
-  output$barplot <- renderPlot(ggplot(pivot_longer(dfSp(), names(dfSp())[-1])) + 
-                                 theme(axis.text.x = element_text(angle = 15)) +
-                                 geom_bar(aes(x = name, y = value, fill = name), stat = "identity") +
-                                 scale_fill_manual("Sample Location", values = locCols))
-  output$mapplot <- renderPlot(plotMap(dfSp(), locations, occurrence(), input$mapsize)
-  )
+  output$barplot <- renderPlot(plotBar(dfSp()))
+  output$mapplot <- renderPlot(plotMap(dfSp(), locations, occurrence(), input$mapsize))
 }
 
 shinyApp(ui,server, options = c(port = 80))
