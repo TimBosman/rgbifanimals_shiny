@@ -28,8 +28,9 @@ ui <- pageWithSidebar(
   ),
   # Main panel for displaying outputs ----
   mainPanel(
-    plotOutput("barplot", width = "380pt"),
-    plotOutput("mapplot", width = "380pt")
+    plotOutput("barplot"),
+    plotOutput("mapplot"),
+    width = 10
   )
 )
 server <- function(input, output){
