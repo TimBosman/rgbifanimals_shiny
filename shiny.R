@@ -23,7 +23,8 @@ ui <- pageWithSidebar(
     radioButtons("mapsize", "Map size", c("World" = "world", "Europe" = "europe", "East Sea" = "eastsea"), width = "100pt", selected = "europe"),
     # radioButtons("line", "Show shortest path through sea", c("No" = FALSE, "Yes" = TRUE), width = "100pt"),
     # radioButtons("visualization", "Show occurrences as", c("Points" = geom_point, "Hexagons" = geom_hex), width = "100pt"),
-    # radioButtons("allLoc", "Show all sample locations",c("Yes" = TRUE, "No" = FALSE))
+    # radioButtons("allLoc", "Show all sample locations",c("Yes" = TRUE, "No" = FALSE)),
+    width = 2
   ),
   # Main panel for displaying outputs ----
   mainPanel(
