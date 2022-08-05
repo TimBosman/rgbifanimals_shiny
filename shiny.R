@@ -5,7 +5,7 @@ library("maps")
 library("rlist")
 library("RColorBrewer")
 
-setwd("C:/Users/Tim/Desktop/rgbif shiny")
+setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
 source("functions.R")
 df <- readRDS("inputs/BOLDigger_Species_Location.rds")
 locations <- read.csv("inputs/Coordinates.csv")
