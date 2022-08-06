@@ -3,6 +3,7 @@ library("ggplot2")
 library("tidyr")
 library("maps")
 library("rlist")
+library("rgbif")
 library("RColorBrewer")
 
 setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
@@ -24,7 +25,8 @@ ui <- pageWithSidebar(
     # radioButtons("line", "Show shortest path through sea", c("No" = FALSE, "Yes" = TRUE)),
     # radioButtons("visualization", "Show occurrences as", c("Points" = geom_point, "Hexagons" = geom_hex),
     # radioButtons("allLoc", "Show all sample locations",c("Yes" = TRUE, "No" = FALSE)),
-    width = 2
+    width = 2,
+    tableOutput("sptable")
   ),
   # Main panel for displaying outputs ----
   mainPanel(
@@ -35,14 +37,14 @@ ui <- pageWithSidebar(
 )
 server <- function(input, output){
   output$species <- renderText(input$species)
-  dfSp <- eventReactive(input$species, {
-    df[df$Specieslist == input$species, ]
-  }) 
+  dfSp <- eventReactive(input$species, df[df$Specieslist == input$species, ])
+  infoSp <- eventReactive(input$species, t(name_backbone(input$species)[,c("usageKey", "scientificName", "kingdom", "phylum", "order", "family", "class")]))
   occurrence <- eventReactive(input$species, {
     read.csv(paste0("OccurrenceData/", input$species, ".csv"))
   })
   output$barplot <- renderPlot(plotBar(dfSp()))
   output$mapplot <- renderPlot(plotMap(dfSp(), locations, occurrence(), input$mapsize))
+  output$sptable <- renderTable(infoSp(), rownames = TRUE, colnames = FALSE)
 }
 
 shinyApp(ui,server, options = c(port = 80))
