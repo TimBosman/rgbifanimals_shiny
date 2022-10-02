@@ -47,4 +47,7 @@ server <- function(input, output){
   output$sptable <- renderTable(infoSp(), rownames = TRUE, colnames = FALSE)
 }
 
-shinyApp(ui,server, options = c(port = 80))
+
+options(shiny.host = '0.0.0.0')
+options(shiny.port = 80)
+shinyApp(ui,server)
