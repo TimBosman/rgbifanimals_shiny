@@ -1,0 +1,7 @@
+install.packages("shiny")
+install.packages("ggplot2")
+install.packages("tidyr")
+install.packages("maps")
+install.packages("rlist")
+install.packages("rgbif")
+install.packages("RColorBrewer")
