@@ -6,7 +6,7 @@ library("rlist")
 library("rgbif")
 library("RColorBrewer")
 
-setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
+#setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
 source("functions.R")
 df <- readRDS("inputs/BOLDigger_Species_Location.rds")
 locations <- read.csv("inputs/Coordinates.csv")
@@ -47,4 +47,4 @@ server <- function(input, output){
   output$sptable <- renderTable(infoSp(), rownames = TRUE, colnames = FALSE)
 }
 
-shinyApp(ui,server, options = c(port = 80))
+shinyApp(ui,server, options = c(port = 80))shinyApp(ui,server, options = c(port = 80))
