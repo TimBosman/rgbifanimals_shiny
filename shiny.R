@@ -1,5 +1,6 @@
-library("shiny")
+################################ Load Packages #################################
 library("ggplot2")
+library("shiny")
 library("tidyr")
 library("maps")
 library("rlist")
@@ -8,6 +9,7 @@ library("leaflet")
 # library("rentrez")
 library("RColorBrewer")
 
+######################### Load functions and datasets ##########################
 source("functions.R")
 df <- readRDS("inputs/BOLDigger_Species_Location.rds")
 locations <- read.csv("inputs/Coordinates.csv")
@@ -15,6 +17,7 @@ locations <- read.csv("inputs/Coordinates.csv")
 loc_cols <- brewer.pal(nrow(locations), "Set3")
 names(loc_cols) <- locations$Observatory.ID
 
+################################ Define the GUI ################################
 ui <- pageWithSidebar(
   # App title ----
   titlePanel("GBIF occurrence"),
@@ -33,6 +36,8 @@ ui <- pageWithSidebar(
     width = 10
   )
 )
+
+############################## Define the backend ##############################
 server <- function(input, output) {
   output$species <- renderText(input$species)
   df_sp <- eventReactive(input$species, df[df$Specieslist == input$species, ])
@@ -53,7 +58,7 @@ server <- function(input, output) {
     loc_cols))
 }
 
-
+###################### Run the Shiny app on localhost:80 #######################
 options(shiny.host = "0.0.0.0")
 options(shiny.port = 80)
 shinyApp(ui, server)
