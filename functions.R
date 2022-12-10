@@ -17,14 +17,15 @@ plot_bar <- function(df, loc_cols) {
 
 plot_leaflet <- function(df, locations, occurrence, loc_cols) {
   locations <- locations[locations$Observatory.ID %in% names(df)[df[1, ] > 0], ]
-  aicon <- awesomeIcons(markerColor = loc_cols)
+  occurrence_icons <- awesomeIcons(icon = "bookmark", markerColor = "black")
+  sample_icons <- awesomeIcons(icon = "flag", markerColor = "green")
   leaflet() %>%
     addProviderTiles(providers$Stamen.TonerLite,
     options = providerTileOptions(noWrap = TRUE)) %>%
       addAwesomeMarkers(data = locations, ~Longitude, ~Latitude,
-        label = ~Observatory.ID, icon = aicon) %>%
-      addMarkers(data = occurrence, ~Longitude, ~Latitude,
-        clusterOptions = markerClusterOptions())
+        label = ~Observatory.ID, icon = sample_icons) %>%
+      addAwesomeMarkers(data = occurrence, ~Longitude, ~Latitude,
+        clusterOptions = markerClusterOptions(), icon = occurrence_icons)
 }
 
 ################################ Data functions ################################
