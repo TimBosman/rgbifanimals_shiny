@@ -4,9 +4,7 @@ library("shiny")
 library("tidyr")
 library("maps")
 library("rlist")
-library("rgbif")
 library("leaflet")
-# library("rentrez")
 library("RColorBrewer")
 
 ######################### Load functions and datasets ##########################
@@ -39,19 +37,12 @@ ui <- pageWithSidebar(
 
 ############################## Define the backend ##############################
 server <- function(input, output) {
-  output$species <- renderText(input$species)
+  # load all the data sets if the species changes
   df_sp <- eventReactive(input$species, df[df$Specieslist == input$species, ])
-  info_cols <- c("usageKey", "scientificName", "kingdom", "phylum", "order",
-    "family", "class")
-  info_sp <- eventReactive(input$species,
-    t(name_backbone(input$species)[, info_cols]))
-  # NCBI <- eventReactive(input$species, entrez_search(db="taxonomy",
-  #   term=paste0("(", input$species, "[ORGN]) AND Species[RANK]"))$ids)
-  # info_sp <- eventReactive(input$species,
-  #   rbind(infoSp, data.frame("NCBI ID" = NCBI)))
-  occurrence <- eventReactive(input$species, {
-    read.csv(paste0("OccurrenceData/", input$species, ".csv"))
-  })
+  info_sp <- eventReactive(input$species, data_gbif(input$species))
+  occurrence <- eventReactive(input$species, data_occurence(input$species))
+
+  # define all the tables and plots here
   output$barplot <- renderPlot(plot_bar(df_sp(), loc_cols))
   output$sptable <- renderTable(info_sp(), rownames = TRUE, colnames = FALSE)
   output$mymap <- renderLeaflet(plot_leaflet(df_sp(), locations, occurrence(),

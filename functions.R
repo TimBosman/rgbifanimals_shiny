@@ -2,8 +2,10 @@
 library("ggplot2")
 library("leaflet")
 library("tidyr")
+library("rentrez")
+library("rgbif")
 
-################################## Functions ###################################
+############################### Plot  functions ################################
 
 plot_bar <- function(df, loc_cols) {
   plot <- ggplot(pivot_longer(df, names(df)[-1])) +
@@ -23,4 +25,22 @@ plot_leaflet <- function(df, locations, occurrence, loc_cols) {
         label = ~Observatory.ID, icon = aicon) %>%
       addMarkers(data = occurrence, ~Longitude, ~Latitude,
         clusterOptions = markerClusterOptions())
+}
+
+################################ Data functions ################################
+data_gbif <- function(species) {
+  info_cols <- c("usageKey", "scientificName", "kingdom", "phylum", "order",
+    "family", "class")
+  species_info <- t(name_backbone(species)[, info_cols])
+
+  # NCBI <- eventReactive(species, entrez_search(db="taxonomy",
+  #   term=paste0("(", species, "[ORGN]) AND Species[RANK]"))$ids)
+  # info_sp <- eventReactive(species,
+  #   rbind(infoSp, data.frame("NCBI ID" = NCBI)))
+
+  return(species_info)
+}
+
+data_occurence <- function(species) {
+  return(read.csv(paste0("OccurrenceData/", species, ".csv")))
 }
