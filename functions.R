@@ -11,7 +11,9 @@ plot_bar <- function(df, loc_cols) {
   plot <- ggplot(pivot_longer(df, names(df)[-1])) +
     theme(axis.text.x = element_text(angle = 15)) +
     geom_bar(aes(x = name, y = value, fill = name), stat = "identity") +
-    scale_fill_manual("Sample Location", values = loc_cols)
+    scale_fill_manual("Sample Location", values = loc_cols) +
+    xlab("Sample location") +
+    ylab("Number of sequences found")
   return(plot)
 }
 
