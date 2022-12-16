@@ -24,10 +24,12 @@ plot_leaflet <- function(df, locations, occurrence, loc_cols) {
   leaflet() %>%
     addProviderTiles(providers$Stamen.TonerLite,
       options = providerTileOptions(noWrap = TRUE)) %>%
-    addAwesomeMarkers(data = locations, ~Longitude, ~Latitude, group = "Sample locations",
-      label = ~Observatory.ID, icon = sample_icons) %>%
-    addAwesomeMarkers(data = occurrence, ~Longitude, ~Latitude, group = "GBIF locations",
-      clusterOptions = markerClusterOptions(), icon = occurrence_icons) %>%
+    addAwesomeMarkers(data = locations, ~Longitude, ~Latitude,
+      icon = sample_icons, group = "Sample locations",
+      label = ~Observatory.ID) %>%
+    addAwesomeMarkers(data = occurrence, ~Longitude, ~Latitude,
+      icon = occurrence_icons, group = "GBIF locations",
+      clusterOptions = markerClusterOptions()) %>%
     addLayersControl(overlayGroups = c("Sample locations", "GBIF locations"),
     options = layersControlOptions(collapsed = FALSE)
   )
