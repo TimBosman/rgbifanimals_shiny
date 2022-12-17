@@ -39,13 +39,13 @@ plot_leaflet <- function(df, locations, occurrence, loc_cols) {
 data_gbif <- function(species) {
   info_cols <- c("usageKey", "scientificName", "kingdom", "phylum", "order",
     "family", "class")
+  # Retrieve GBIF information
   species_info <- t(name_backbone(species)[, info_cols])
-
-  # NCBI <- eventReactive(species, entrez_search(db="taxonomy",
-  #   term=paste0("(", species, "[ORGN]) AND Species[RANK]"))$ids)
-  # info_sp <- eventReactive(species,
-  #   rbind(infoSp, data.frame("NCBI ID" = NCBI)))
-
+  # Retrieve NCBI information
+  NCBIquery <- paste0("(", species, "[ORGN]) AND Species[RANK]")
+  NCBI <- entrez_search(db = "taxonomy", term = NCBIquery)$ids
+  # Combine the information
+  species_info <- rbind(species_info, "NCBI ID" = NCBI)
   return(species_info)
 }
 
