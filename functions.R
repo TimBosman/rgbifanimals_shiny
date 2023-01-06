@@ -44,7 +44,7 @@ data_gbif <- function(species) {
   # Retrieve NCBI information
   NCBIquery <- paste0("(", species, "[ORGN]) AND Species[RANK]")
   NCBI <- entrez_search(db = "taxonomy", term = NCBIquery)$ids
-  common_name <- entrez_summary(db="taxonomy", id=NCBI)$commonname
+  common_name <- entrez_summary(db = "taxonomy", id = NCBI)$commonname
   # Combine the information
   species_info <- rbind(species_info, "NCBI ID" = NCBI)
   species_info <- rbind("Common name" = common_name, species_info)
