@@ -19,7 +19,7 @@ jobs:
       run: docker build . --file dockerfile --tag timbosman-shiny:$(date +%s) --tag timbosman-shiny:latest
 
     - name: Run the Docker image
-      run: docker run -id  -p 80:80 timbosman-shiny
+      run: docker run -id  -p 80:8080 timbosman-shiny
 
     - name: Curl the Container
-      run: curl http://127.0.0.1:80 -v
+      run: curl http://localhost:8080 -v
