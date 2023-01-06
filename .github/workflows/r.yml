@@ -33,7 +33,7 @@ jobs:
       - name: Install requiRements
         run: Rscript -e 'install.packages("requiRements")'
       - name: install dependencies
-        run: Rscript -e 'requiRements::install(path_to_requirements = "/usr/local/src/shinyapp/requirements.txt")'
+        run: Rscript -e 'requiRements::install(path_to_requirements = "requirements.txt")'
       - name: Run the shiny application
         run: Rscript shiny.R &
       - name: Wait 10 seconds for startup
