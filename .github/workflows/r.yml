@@ -36,7 +36,7 @@ jobs:
         run: Rscript -e 'requiRements::install(path_to_requirements = "requirements.txt")'
       - name: Run the shiny application
         run: Rscript shiny.R &
-      - name: Wait 10 seconds for startup
-        run: wait 10s
+      - name: Wait 30 seconds for startup of the script
+        run: sleep 30s
       - name: Curl the endpoint
         run: curl localhost
