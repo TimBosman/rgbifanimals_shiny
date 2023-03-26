@@ -43,5 +43,7 @@ jobs:
             maps
       - name: Run the shiny application
         run: Rscript shiny.R &
+      - name: Sleep for 30 seconds
+        run: sleep 30
       - name: Curl the endpoint
         run: curl --connect-timeout 30 --max-time 10 --retry 10 localhost
