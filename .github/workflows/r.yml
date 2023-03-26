@@ -26,14 +26,21 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      - name: Set up R ${{ matrix.r-version }}
-        uses: r-lib/actions/setup-r@f57f1301a053485946083d7a45022b278929a78a
+      - uses: r-lib/actions/setup-r@v2
         with:
           r-version: ${{ matrix.r-version }}
-      - name: Install requiRements
-        run: Rscript -e 'install.packages("requiRements")'
-      - name: install dependencies
-        run: Rscript -e 'requiRements::install(path_to_requirements = "requirements.txt")'
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: |
+            shiny
+            ggplot2
+            tidyr
+            rgbif
+            RColorBrewer
+            rentrez
+            leaflet
+            rlist
+            maps
       - name: Run the shiny application
         run: Rscript shiny.R &
       - name: Curl the endpoint
